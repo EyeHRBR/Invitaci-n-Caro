@@ -149,6 +149,9 @@
     fieldset { border: 0; padding: 0; margin: 0; }
 
     .opciones { display: grid; gap: 10px; }
+    .opciones.dos { grid-template-columns: 1fr 1fr; }
+
+    .campos-voy { display: grid; gap: 24px; }
 
     .opcion { margin: 0; color: var(--texto); font-weight: 500; }
 
@@ -248,9 +251,24 @@
           </div>
         </fieldset>
 
-        <div id="campo-restricciones">
-          <label for="restricciones">¿Alguna restricción con la comida? <span class="opcional">(opcional)</span></label>
-          <textarea id="restricciones" name="restricciones"></textarea>
+        <div class="campos-voy" id="campos-voy">
+          <fieldset>
+            <legend>¿Vienes con acompañante?</legend>
+            <div class="opciones dos">
+              <label class="opcion"><input type="radio" name="con-acompanante" value="si"><span>Sí</span></label>
+              <label class="opcion"><input type="radio" name="con-acompanante" value="no" checked><span>No</span></label>
+            </div>
+          </fieldset>
+
+          <div id="campo-acompanante" hidden>
+            <label for="acompanante">¿Cómo se llama tu acompañante?</label>
+            <input type="text" id="acompanante" name="acompanante" autocomplete="off">
+          </div>
+
+          <div>
+            <label for="restricciones">¿Alguna restricción con la comida? <span class="opcional">(opcional)</span></label>
+            <textarea id="restricciones" name="restricciones"></textarea>
+          </div>
         </div>
 
         <p class="error" id="error" role="alert"></p>
@@ -270,11 +288,15 @@
     const form = document.getElementById("formulario");
     const error = document.getElementById("error");
     const boton = document.getElementById("enviar");
-    const campoRestricciones = document.getElementById("campo-restricciones");
+    const camposVoy = document.getElementById("campos-voy");
+    const campoAcompanante = document.getElementById("campo-acompanante");
 
     form.addEventListener("change", (e) => {
       if (e.target.name === "respuesta") {
-        campoRestricciones.hidden = e.target.value !== "Voy";
+        camposVoy.hidden = e.target.value !== "Voy";
+      }
+      if (e.target.name === "con-acompanante") {
+        campoAcompanante.hidden = e.target.value !== "si";
       }
     });
 
@@ -290,10 +312,14 @@
 
       const nombre = form.nombre.value.trim();
       const respuesta = form.respuesta.value;
-      const restricciones = respuesta === "Voy" ? form.restricciones.value.trim() : "";
+      const va = respuesta === "Voy";
+      const conAcompanante = va && form["con-acompanante"].value === "si";
+      const acompanante = conAcompanante ? form.acompanante.value.trim() : "";
+      const restricciones = va ? form.restricciones.value.trim() : "";
 
       if (!nombre) { error.textContent = "Escribe tu nombre, por favor."; return; }
       if (!respuesta) { error.textContent = "Cuéntame si vienes."; return; }
+      if (conAcompanante && !acompanante) { error.textContent = "Escribe el nombre de tu acompañante."; return; }
 
       boton.disabled = true;
       boton.textContent = "Enviando…";
@@ -303,7 +329,7 @@
         const res = await fetch(URL_SCRIPT, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ nombre, respuesta, restricciones })
+          body: JSON.stringify({ nombre, respuesta, acompanante, restricciones })
         });
         const datos = await res.json();
 
