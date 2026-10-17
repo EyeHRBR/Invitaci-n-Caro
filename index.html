@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Confirma tu asistencia</title>
+  <meta name="description" content="Confirma tu asistencia al cumpleaños">
+
+  <!-- TIPOGRAFÍAS: reemplazar por las de textos_confirmacion.md -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* COLORES Y TIPOGRAFÍAS: reemplazar por los de textos_confirmacion.md */
+    :root {
+      --fondo: #f6efe6;
+      --crema: #fbf6ee;
+      --texto: #4a3b32;
+      --acento: #b9826b;
+      --acento-texto: #ffffff;
+      --suave: #8a7a6e;
+      --error: #a8443a;
+
+      --fuente-titulo: "Great Vibes", cursive;
+      --fuente-subtitulo: "Cormorant Garamond", serif;
+      --fuente-cuerpo: "Montserrat", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; }
+
+    body {
+      background: var(--fondo);
+      color: var(--texto);
+      font-family: var(--fuente-cuerpo);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+      text-align: center;
+    }
+
+    /* Marco de arco con borde crema */
+    .arco {
+      width: min(78vw, 300px);
+      aspect-ratio: 3 / 4;
+      margin: 0 auto 28px;
+      border: 10px solid var(--crema);
+      border-radius: 999px 999px 0 0;
+      overflow: hidden;
+      background: var(--crema);
+      box-shadow: 0 10px 30px rgba(74, 59, 50, 0.15);
+    }
+
+    .arco img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    h1 {
+      font-family: var(--fuente-titulo);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 12vw, 3.4rem);
+      line-height: 1.1;
+      margin: 0 0 8px;
+      color: var(--acento);
+    }
+
+    .subtitulo {
+      font-family: var(--fuente-subtitulo);
+      font-size: 1.35rem;
+      margin: 0 0 6px;
+    }
+
+    .detalles {
+      font-size: 0.95rem;
+      color: var(--suave);
+      margin: 0 0 28px;
+      white-space: pre-line;
+    }
+
+    form {
+      text-align: left;
+      display: grid;
+      gap: 20px;
+    }
+
+    label, legend {
+      display: block;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--texto);
+      background: var(--crema);
+      border: 1px solid rgba(74, 59, 50, 0.2);
+      border-radius: 12px;
+    }
+
+    textarea { min-height: 88px; resize: vertical; }
+
+    input:focus, textarea:focus {
+      outline: 2px solid var(--acento);
+      outline-offset: 1px;
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0; }
+
+    .opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .opcion input { position: absolute; opacity: 0; pointer-events: none; }
+
+    .opcion span {
+      display: block;
+      padding: 14px 8px;
+      text-align: center;
+      border: 1px solid var(--acento);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .opcion input:checked + span {
+      background: var(--acento);
+      color: var(--acento-texto);
+    }
+
+    .opcion input:focus-visible + span { outline: 2px solid var(--texto); outline-offset: 2px; }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      font: inherit;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--acento-texto);
+      background: var(--acento);
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: 0.6; cursor: wait; }
+
+    .error { color: var(--error); font-size: 0.9rem; margin: 0; min-height: 1.4em; text-align: center; }
+
+    .mensaje { display: none; padding: 8px 0; }
+    .mensaje.visible { display: block; }
+    .mensaje h2 {
+      font-family: var(--fuente-subtitulo);
+      font-weight: 600;
+      font-size: 1.6rem;
+      margin: 0 0 8px;
+    }
+    .mensaje p { margin: 0; color: var(--suave); }
+
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="arco">
+      <img src="foto_invitacion.jpg" alt="" onerror="this.remove()">
+    </div>
+
+    <!-- TEXTOS: reemplazar por los de textos_confirmacion.md -->
+    <h1>Mi cumpleaños</h1>
+    <p class="subtitulo">¡Acompáñame a celebrar!</p>
+    <p class="detalles">Fecha · Hora
+Lugar</p>
+
+    <form id="formulario" novalidate>
+      <div>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+      </div>
+
+      <fieldset>
+        <legend>¿Asistirás?</legend>
+        <div class="opciones">
+          <label class="opcion"><input type="radio" name="respuesta" value="Voy" required><span>Voy</span></label>
+          <label class="opcion"><input type="radio" name="respuesta" value="No voy"><span>No voy</span></label>
+        </div>
+      </fieldset>
+
+      <div id="campo-restricciones">
+        <label for="restricciones">Restricciones alimentarias (opcional)</label>
+        <textarea id="restricciones" name="restricciones" placeholder="Alergias, vegetariano, etc."></textarea>
+      </div>
+
+      <p class="error" id="error" role="alert"></p>
+      <button type="submit" id="enviar">Confirmar</button>
+    </form>
+
+    <div class="mensaje" id="msg-voy" role="status">
+      <h2>¡Gracias por confirmar!</h2>
+      <p>Te esperamos para celebrar.</p>
+    </div>
+
+    <div class="mensaje" id="msg-novoy" role="status">
+      <h2>¡Gracias por avisar!</h2>
+      <p>Te vamos a extrañar.</p>
+    </div>
+
+    <div class="mensaje" id="msg-lleno" role="status">
+      <h2>Cupo lleno</h2>
+      <p>Lo sentimos, ya se completó el cupo para esta celebración.</p>
+    </div>
+  </main>
+
+  <script>
+    // Pega aquí la URL de tu Apps Script publicado (termina en /exec)
+    const URL_SCRIPT = "PEGA_AQUI_LA_URL_DEL_SCRIPT";
+
+    const form = document.getElementById("formulario");
+    const error = document.getElementById("error");
+    const boton = document.getElementById("enviar");
+    const campoRestricciones = document.getElementById("campo-restricciones");
+
+    form.addEventListener("change", (e) => {
+      if (e.target.name === "respuesta") {
+        campoRestricciones.hidden = e.target.value !== "Voy";
+      }
+    });
+
+    function mostrar(id) {
+      form.hidden = true;
+      document.getElementById(id).classList.add("visible");
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      error.textContent = "";
+
+      const nombre = form.nombre.value.trim();
+      const respuesta = form.respuesta.value;
+      const restricciones = respuesta === "Voy" ? form.restricciones.value.trim() : "";
+
+      if (!nombre) { error.textContent = "Escribe tu nombre, por favor."; return; }
+      if (!respuesta) { error.textContent = "Elige si vas o no."; return; }
+
+      boton.disabled = true;
+      boton.textContent = "Enviando…";
+
+      try {
+        // text/plain evita la verificación CORS previa que Apps Script no admite
+        const res = await fetch(URL_SCRIPT, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ nombre, respuesta, restricciones })
+        });
+        const datos = await res.json();
+
+        if (datos.estado === "lleno") mostrar("msg-lleno");
+        else if (datos.estado === "ok") mostrar(respuesta === "Voy" ? "msg-voy" : "msg-novoy");
+        else throw new Error(datos.mensaje || "Respuesta inesperada");
+      } catch (err) {
+        error.textContent = "No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.";
+        boton.disabled = false;
+        boton.textContent = "Confirmar";
+      }
+    });
+  </script>
+</body>
+</html>
