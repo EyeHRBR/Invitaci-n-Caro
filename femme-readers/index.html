@@ -337,8 +337,10 @@
           <p class="libro">Liderazgo Imperfecto: los 5 pilares del nuevo liderazgo</p>
         </div>
       </div>
-      <p>José Manuel Echeverri es el autor de <em>Liderazgo Imperfecto</em> (2023), un libro que propone mirar el liderazgo de una forma más real, humana y empática: dejar atrás la idea del líder que lo sabe todo y nunca se equivoca, y reemplazarla por alguien que se muestra tal como es, sigue aprendiendo y cuida a su equipo.</p>
-      <p>Durante octubre recorrimos juntas sus cinco pilares:</p>
+      <p>José Manuel Echeverri es un consultor, conferencista y mentor colombiano, experto en liderazgo, transformación cultural y desarrollo organizacional. Tiene más de 20 años de experiencia como ejecutivo de gestión humana en grandes multinacionales de Latinoamérica, Estados Unidos y Europa, y se ha desempeñado como vicepresidente de Gestión Humana (CHRO) de Colombina.</p>
+      <p>Además es uno de los creadores de contenido sobre liderazgo más seguidos de LinkedIn en Colombia, donde comparte reflexiones sobre autogestión, inteligencia emocional, desarrollo de talento y cultura organizacional.</p>
+      <p>En <em>Liderazgo Imperfecto</em> (2023) desafía el mito del “líder perfecto”: los mejores líderes no son quienes proyectan perfección, sino quienes abrazan su vulnerabilidad y autenticidad, siguen aprendiendo y cuidan a sus equipos.</p>
+      <p>Durante octubre, en Femme Readers, recorrimos sus cinco pilares:</p>
       <ol class="pilares">
         <li>Conectar desde quienes somos de verdad</li>
         <li>Ser eternas aprendices</li>
@@ -356,7 +358,7 @@
       <ul class="prep">
         <li><span class="icono" aria-hidden="true">📝</span><span>Envía tu pregunta para José <strong>antes del lunes 16</strong>. Puedes dejarla aquí abajo, en el formulario.</span></li>
         <li><span class="icono" aria-hidden="true">📖</span><span>Dale una repasada a tus subrayados y notas del libro.</span></li>
-        <li><span class="icono" aria-hidden="true">💛</span><span>Invita a una amiga que también lo haya leído o a quien le pueda servir esta conversación.</span></li>
+        <li><span class="icono" aria-hidden="true">💛</span><span>Invita a alguien que también lo haya leído o a quien le pueda servir esta conversación.</span></li>
       </ul>
       <p class="nota">¿No alcanzaste a terminar el libro? ¡Ven igual! La conversación te va a sumar muchísimo.</p>
     </div>
@@ -378,6 +380,29 @@
             <label for="correo">Tu correo <span class="opcional">(opcional)</span>
               <span class="ayuda">Para enviarte un recordatorio con el enlace.</span></label>
             <input type="email" id="correo" name="correo" autocomplete="email">
+          </div>
+
+          <fieldset>
+            <legend>Género</legend>
+            <div class="opciones dos">
+              <label class="opcion"><input type="radio" name="genero" value="Femenino"><span>Femenino</span></label>
+              <label class="opcion"><input type="radio" name="genero" value="Masculino"><span>Masculino</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>¿Cómo te enteraste del encuentro?</legend>
+            <div class="opciones">
+              <label class="opcion"><input type="radio" name="origen" value="Comunidad Femme Readers"><span>Soy parte de Femme Readers</span></label>
+              <label class="opcion"><input type="radio" name="origen" value="Me invitó alguien"><span>Me invitó alguien</span></label>
+              <label class="opcion"><input type="radio" name="origen" value="Redes sociales"><span>Redes sociales</span></label>
+              <label class="opcion"><input type="radio" name="origen" value="Otro"><span>Otro</span></label>
+            </div>
+          </fieldset>
+
+          <div id="campo-origen-otro" hidden>
+            <label for="origen-otro">¿Dónde te enteraste?</label>
+            <input type="text" id="origen-otro" name="origen-otro" autocomplete="off">
           </div>
 
           <fieldset>
@@ -411,12 +436,12 @@
 
             <div>
               <label for="pregunta">Tu pregunta para José <span class="opcional">(opcional)</span>
-                <span class="ayuda">¿Qué te gustaría preguntarle sobre liderar siendo imperfectas? Recibimos preguntas hasta el lunes 16.</span></label>
+                <span class="ayuda">¿Qué te gustaría preguntarle sobre liderar desde la imperfección? Recibimos preguntas hasta el lunes 16.</span></label>
               <textarea id="pregunta" name="pregunta"></textarea>
             </div>
 
             <div>
-              <label for="amiga">¿Invitas a una amiga? Escribe su nombre <span class="opcional">(opcional)</span></label>
+              <label for="amiga">¿Invitas a alguien? Escribe su nombre <span class="opcional">(opcional)</span></label>
               <input type="text" id="amiga" name="amiga" autocomplete="off">
             </div>
           </div>
@@ -462,9 +487,11 @@
     const error = document.getElementById("error");
     const boton = document.getElementById("enviar");
     const camposSi = document.getElementById("campos-si");
+    const campoOrigenOtro = document.getElementById("campo-origen-otro");
 
     form.addEventListener("change", (e) => {
       if (e.target.name === "asiste") camposSi.hidden = e.target.value !== "Sí";
+      if (e.target.name === "origen") campoOrigenOtro.hidden = e.target.value !== "Otro";
     });
 
     function mostrar(id) {
@@ -478,6 +505,10 @@
 
       const nombre = form.nombre.value.trim();
       const correo = form.correo.value.trim();
+      const genero = form.genero.value;
+      const origen = form.origen.value === "Otro"
+        ? "Otro: " + form["origen-otro"].value.trim()
+        : form.origen.value;
       const asiste = form.asiste.value;
       const si = asiste === "Sí";
       const lectura = si ? form.lectura.value : "";
@@ -487,6 +518,9 @@
 
       if (!nombre) { error.textContent = "Escribe tu nombre, por favor."; return; }
       if (correo && !/^\S+@\S+\.\S+$/.test(correo)) { error.textContent = "Revisa tu correo, parece que le falta algo."; return; }
+      if (!genero) { error.textContent = "Selecciona tu género, por favor."; return; }
+      if (!form.origen.value) { error.textContent = "Cuéntanos cómo te enteraste del encuentro."; return; }
+      if (form.origen.value === "Otro" && !form["origen-otro"].value.trim()) { error.textContent = "Cuéntanos dónde te enteraste."; return; }
       if (!asiste) { error.textContent = "Cuéntanos si vienes."; return; }
 
       boton.disabled = true;
@@ -497,7 +531,7 @@
         const res = await fetch(URL_SCRIPT, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ nombre, correo, asiste, lectura, pilar, pregunta, amiga })
+          body: JSON.stringify({ nombre, correo, genero, origen, asiste, lectura, pilar, pregunta, amiga })
         });
         const datos = await res.json();
         if (datos.estado !== "ok") throw new Error(datos.mensaje || "Respuesta inesperada");
