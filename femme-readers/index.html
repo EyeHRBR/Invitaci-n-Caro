@@ -391,18 +391,42 @@
           </fieldset>
 
           <fieldset>
-            <legend>¿Cómo te enteraste del encuentro?</legend>
-            <div class="opciones">
-              <label class="opcion"><input type="radio" name="origen" value="Comunidad Femme Readers"><span>Soy parte de Femme Readers</span></label>
-              <label class="opcion"><input type="radio" name="origen" value="Me invitó alguien"><span>Me invitó alguien</span></label>
-              <label class="opcion"><input type="radio" name="origen" value="Redes sociales"><span>Redes sociales</span></label>
-              <label class="opcion"><input type="radio" name="origen" value="Otro"><span>Otro</span></label>
+            <legend>¿Haces parte de la comunidad Femme Readers?</legend>
+            <div class="opciones dos">
+              <label class="opcion"><input type="radio" name="comunidad" value="Sí"><span>Sí</span></label>
+              <label class="opcion"><input type="radio" name="comunidad" value="No"><span>Todavía no</span></label>
             </div>
           </fieldset>
 
-          <div id="campo-origen-otro" hidden>
-            <label for="origen-otro">¿Dónde te enteraste?</label>
-            <input type="text" id="origen-otro" name="origen-otro" autocomplete="off">
+          <div class="campos-si" id="campos-externo" hidden>
+            <fieldset>
+              <legend>¿Cómo te enteraste del encuentro?</legend>
+              <div class="opciones">
+                <label class="opcion"><input type="radio" name="origen" value="Me invitó alguien de Femme Readers"><span>Me invitó alguien de Femme Readers</span></label>
+                <label class="opcion"><input type="radio" name="origen" value="Me invitó otra persona"><span>Me invitó otra persona</span></label>
+                <label class="opcion"><input type="radio" name="origen" value="Redes sociales"><span>Redes sociales</span></label>
+                <label class="opcion"><input type="radio" name="origen" value="Otro"><span>Otro</span></label>
+              </div>
+            </fieldset>
+
+            <div id="campo-quien" hidden>
+              <label for="quien">¿Quién te invitó? <span class="opcional">(opcional)</span></label>
+              <input type="text" id="quien" name="quien" autocomplete="off">
+            </div>
+
+            <div id="campo-origen-otro" hidden>
+              <label for="origen-otro">¿Dónde te enteraste?</label>
+              <input type="text" id="origen-otro" name="origen-otro" autocomplete="off">
+            </div>
+
+            <fieldset>
+              <legend>¿Te gustaría hacer parte de Femme Readers?</legend>
+              <div class="opciones">
+                <label class="opcion"><input type="radio" name="interes" value="Sí"><span>¡Sí, cuéntenme más!</span></label>
+                <label class="opcion"><input type="radio" name="interes" value="Tal vez"><span>Tal vez</span></label>
+                <label class="opcion"><input type="radio" name="interes" value="Por ahora no"><span>Por ahora no</span></label>
+              </div>
+            </fieldset>
           </div>
 
           <fieldset>
@@ -488,10 +512,16 @@
     const boton = document.getElementById("enviar");
     const camposSi = document.getElementById("campos-si");
     const campoOrigenOtro = document.getElementById("campo-origen-otro");
+    const camposExterno = document.getElementById("campos-externo");
+    const campoQuien = document.getElementById("campo-quien");
 
     form.addEventListener("change", (e) => {
       if (e.target.name === "asiste") camposSi.hidden = e.target.value !== "Sí";
-      if (e.target.name === "origen") campoOrigenOtro.hidden = e.target.value !== "Otro";
+      if (e.target.name === "comunidad") camposExterno.hidden = e.target.value !== "No";
+      if (e.target.name === "origen") {
+        campoOrigenOtro.hidden = e.target.value !== "Otro";
+        campoQuien.hidden = !e.target.value.startsWith("Me invitó");
+      }
     });
 
     function mostrar(id) {
@@ -506,9 +536,13 @@
       const nombre = form.nombre.value.trim();
       const correo = form.correo.value.trim();
       const genero = form.genero.value;
-      const origen = form.origen.value === "Otro"
+      const comunidad = form.comunidad.value;
+      const externo = comunidad === "No";
+      const origen = !externo ? "" : form.origen.value === "Otro"
         ? "Otro: " + form["origen-otro"].value.trim()
         : form.origen.value;
+      const quien = externo && form.origen.value.startsWith("Me invitó") ? form.quien.value.trim() : "";
+      const interes = externo ? form.interes.value : "";
       const asiste = form.asiste.value;
       const si = asiste === "Sí";
       const lectura = si ? form.lectura.value : "";
@@ -519,8 +553,10 @@
       if (!nombre) { error.textContent = "Escribe tu nombre, por favor."; return; }
       if (correo && !/^\S+@\S+\.\S+$/.test(correo)) { error.textContent = "Revisa tu correo, parece que le falta algo."; return; }
       if (!genero) { error.textContent = "Selecciona tu género, por favor."; return; }
-      if (!form.origen.value) { error.textContent = "Cuéntanos cómo te enteraste del encuentro."; return; }
-      if (form.origen.value === "Otro" && !form["origen-otro"].value.trim()) { error.textContent = "Cuéntanos dónde te enteraste."; return; }
+      if (!comunidad) { error.textContent = "Cuéntanos si haces parte de Femme Readers."; return; }
+      if (externo && !form.origen.value) { error.textContent = "Cuéntanos cómo te enteraste del encuentro."; return; }
+      if (externo && form.origen.value === "Otro" && !form["origen-otro"].value.trim()) { error.textContent = "Cuéntanos dónde te enteraste."; return; }
+      if (externo && !interes) { error.textContent = "Cuéntanos si te gustaría hacer parte de Femme Readers."; return; }
       if (!asiste) { error.textContent = "Cuéntanos si vienes."; return; }
 
       boton.disabled = true;
@@ -531,7 +567,7 @@
         const res = await fetch(URL_SCRIPT, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ nombre, correo, genero, origen, asiste, lectura, pilar, pregunta, amiga })
+          body: JSON.stringify({ nombre, correo, genero, comunidad, origen, quien, interes, asiste, lectura, pilar, pregunta, amiga })
         });
         const datos = await res.json();
         if (datos.estado !== "ok") throw new Error(datos.mensaje || "Respuesta inesperada");

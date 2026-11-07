@@ -2,7 +2,7 @@
 // Pégalo en Extensiones > Apps Script desde tu hoja de Google Sheets.
 
 const NOMBRE_HOJA = "Confirmaciones";
-const ENCABEZADOS = ["Fecha y hora", "Nombre", "Correo", "Género", "¿Cómo se enteró?", "¿Asiste?", "Lectura", "Pilar favorito", "Pregunta para José", "Persona invitada"];
+const ENCABEZADOS = ["Fecha y hora", "Nombre", "Correo", "Género", "¿Es de Femme Readers?", "¿Cómo se enteró?", "¿Quién lo invitó?", "¿Quiere unirse?", "¿Asiste?", "Lectura", "Pilar favorito", "Pregunta para José", "Persona invitada"];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -22,7 +22,10 @@ function doPost(e) {
       nombre,
       texto(datos.correo),
       texto(datos.genero),
+      texto(datos.comunidad),
       texto(datos.origen),
+      texto(datos.quien),
+      texto(datos.interes),
       asiste,
       texto(datos.lectura),
       texto(datos.pilar),
