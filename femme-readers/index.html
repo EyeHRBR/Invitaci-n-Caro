@@ -95,11 +95,14 @@
       transition: background 0.15s, border-color 0.15s;
     }
 
-    .boton:hover { background: var(--rosa); border-color: var(--rosa); }
+    @media (hover: hover) {
+      .boton:hover { background: var(--rosa); border-color: var(--rosa); }
+      .boton.secundario:hover { background: var(--rosa); border-color: var(--rosa); color: #fff; }
+      .opcion span:hover { border-color: var(--morado); }
+    }
     .boton:disabled { opacity: 0.6; cursor: wait; }
 
     .boton.secundario { background: #fff; color: var(--morado); }
-    .boton.secundario:hover { background: var(--rosa); border-color: var(--rosa); color: #fff; }
 
     /* Etiquetas en cuadrados */
     .etiqueta {
@@ -242,7 +245,6 @@
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s, color 0.15s;
     }
-    .opcion span:hover { border-color: var(--morado); }
     .opcion input:checked + span { background: var(--morado); border-color: var(--morado); color: #fff; }
     .opcion input:focus-visible + span { outline: 3px solid var(--rosa); outline-offset: 2px; }
     .invalido .opcion span { border-color: var(--error); }
