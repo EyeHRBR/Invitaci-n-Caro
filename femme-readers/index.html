@@ -17,7 +17,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     @font-face {
@@ -38,7 +38,7 @@
       --fondo-suave: #FAF7FC;
       --error: #C0114F;
 
-      --titulo: "Wild Mango", "Poppins", Georgia, serif;
+      --titulo: "Wild Mango", "DM Serif Display", Georgia, serif;
       --cuerpo: "Poppins", system-ui, sans-serif;
     }
 
@@ -74,6 +74,8 @@
 
     .cinta.inf-izq { bottom: 0; left: 0; }
     .cinta.inf-izq span { bottom: 0; left: 0; clip-path: polygon(0 0, 0 100%, 100% 100%); }
+    .cinta.inf-izq span:nth-child(1) { background: var(--morado); }
+    .cinta.inf-izq span:nth-child(3) { background: var(--rosa); }
 
     /* Botones */
     .boton {
@@ -138,30 +140,38 @@
 
     .hero .envoltura { z-index: 1; }
 
-    .hero h1 { font-size: clamp(2.5rem, 12vw, 3.6rem); color: var(--gris); margin: 14px 0 6px; }
-    .hero h1 .nombre { color: var(--morado); display: block; }
+    .sobretitulo { margin: 0; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gris); }
+    .sobretitulo.morado { color: var(--morado); font-weight: 500; margin-top: 4px; }
 
-    .autor-de { font-size: 1.05rem; margin: 0 0 28px; }
-    .autor-de strong { font-weight: 700; }
+    .hero h1 { font-size: clamp(2rem, 10.2vw, 4rem); color: var(--gris); margin: 26px 0 4px; line-height: 1; }
+    .hero h1 .nombre { color: var(--rosa); display: block; }
 
-    .fecha { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+    .autor-de { font-size: 1.1rem; margin: 0 0 40px; }
 
+    /* Portada + fecha, como en el flyer */
+    .portada-fecha { display: grid; grid-template-columns: 1.1fr 1fr; gap: 26px; align-items: center; margin-bottom: 44px; }
+
+    .fecha p { margin: 0; }
+    .fecha .jueves { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--morado); }
     .dia {
+      display: block;
       font-family: var(--titulo);
-      font-size: clamp(6.5rem, 34vw, 9rem);
-      line-height: 0.85;
+      font-size: clamp(5.2rem, 27vw, 8.5rem);
+      line-height: 0.9;
       color: var(--rosa);
     }
+    .fecha .mes { font-size: clamp(1.05rem, 5vw, 1.5rem); font-weight: 500; line-height: 1.2; }
+    .fecha .raya { display: block; width: 56px; height: 4px; background: var(--naranja); margin: 14px 0; }
+    .fecha .hora { font-family: var(--titulo); font-size: clamp(1.9rem, 9vw, 3rem); line-height: 1; }
+    .fecha .zona { font-size: 0.95rem; margin-bottom: 14px; }
+    .fecha .zoom { display: inline-block; margin-top: 14px; padding: 6px 12px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #fff; background: var(--morado); }
 
-    .fecha-detalle { font-size: 1rem; line-height: 1.45; }
-    .fecha-detalle .mes { display: block; font-weight: 700; font-size: 1.35rem; color: var(--gris); }
-    .fecha-detalle .zona { color: var(--gris-suave); font-size: 0.92rem; }
-
-    /* Imagen con bloques de color detrás */
-    .capas { position: relative; width: min(64%, 240px); margin: 0 0 40px 18px; }
+    /* Imagen con bloques de color detrás (rosa arriba a la derecha, naranja abajo a la izquierda) */
+    .capas { position: relative; margin: 18px 18px 18px 12px; }
     .capas::before, .capas::after { content: ""; position: absolute; z-index: 0; }
-    .capas::before { background: var(--rosa); inset: -14px 18px 26px -18px; }
-    .capas::after { background: var(--naranja); inset: 26px -18px -16px 30px; }
+    .capas::before { background: var(--rosa); inset: -18px -18px 18px 18px; }
+    .capas::after { background: var(--naranja); inset: 18px 18px -18px -12px; z-index: -1; }
+    .capas { isolation: isolate; }
     .capas img, .capas .reemplazo { position: relative; z-index: 1; display: block; width: 100%; height: auto; box-shadow: 0 10px 24px rgba(60, 60, 59, 0.18); }
     .capas .reemplazo {
       aspect-ratio: 2 / 3;
@@ -192,7 +202,7 @@
     }
 
     .autor-grid { display: grid; gap: 34px; }
-    .autor-grid .capas { margin: 8px 0 0 18px; width: min(60%, 220px); }
+    .autor-grid .capas { margin: 18px 0 18px 12px; width: min(58%, 220px); }
 
     /* Formulario */
     form { display: grid; gap: 40px; }
@@ -303,21 +313,24 @@
         <img src="assets/logo-femme-bizz-color.png" alt="Femme Bizz" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-texto',textContent:'Femme Bizz'}))">
       </div>
 
-      <span class="etiqueta">Femme Readers · Encuentro de cierre</span>
+      <p class="sobretitulo">Femme Readers</p>
+      <p class="sobretitulo morado">Encuentro de cierre</p>
       <h1>Conversemos con <span class="nombre">Jose Echeverri</span></h1>
-      <p class="autor-de">autor de <strong>Liderazgo Imperfecto</strong></p>
+      <p class="autor-de">autor de Liderazgo Imperfecto</p>
 
-      <div class="fecha">
-        <span class="dia">19</span>
-        <p class="fecha-detalle">
-          <span class="mes">de noviembre</span>
-          Jueves · 5:00 p. m.<br>
-          <span class="zona">Hora Colombia · Por Zoom</span>
-        </p>
-      </div>
-
-      <div class="capas">
-        <img src="assets/portada-liderazgo-imperfecto.png" alt="Portada del libro Liderazgo Imperfecto" onerror="this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'">
+      <div class="portada-fecha">
+        <div class="capas">
+          <img src="assets/portada-liderazgo-imperfecto.jpg" alt="Portada del libro Liderazgo Imperfecto, de Jose Echeverri" width="400" height="638" onerror="this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'">
+        </div>
+        <div class="fecha">
+          <p class="jueves">Jueves</p>
+          <p><span class="dia">19</span></p>
+          <p class="mes">de noviembre</p>
+          <span class="raya" aria-hidden="true"></span>
+          <p class="hora">5:00 p.&nbsp;m.</p>
+          <p class="zona">hora Colombia</p>
+          <span class="zoom">Por Zoom</span>
+        </div>
       </div>
 
       <a class="boton" href="#confirmar">Confirmar asistencia</a>
@@ -345,7 +358,7 @@
       <!-- Foto de Jose: guarda el archivo como assets/jose-echeverri.jpg. Mientras no exista, se muestra la portada del libro. -->
       <div class="capas">
         <img src="assets/jose-echeverri.jpg" alt="Jose Echeverri"
-             onerror="this.onerror=function(){this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'};this.alt='Portada del libro Liderazgo Imperfecto';this.src='assets/portada-liderazgo-imperfecto.png'">
+             onerror="this.onerror=function(){this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'};this.alt='Portada del libro Liderazgo Imperfecto';this.src='assets/portada-liderazgo-imperfecto.jpg'">
       </div>
     </div>
   </section>
