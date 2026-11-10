@@ -22,7 +22,7 @@
   <style>
     @font-face {
       font-family: "Wild Mango";
-      src: url("assets/Wild_Mango.otf") format("opentype");
+      src: url("assets/fonts/WildMango.woff") format("woff");
       font-display: swap;
     }
 
@@ -135,8 +135,9 @@
     .hero { position: relative; padding: 24px 0 48px; }
 
     .logo { position: relative; z-index: 1; display: flex; align-items: center; min-height: 44px; margin-bottom: 36px; }
-    .logo img { height: 44px; width: auto; display: block; }
-    .logo-texto { font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--morado); }
+    .logo { margin-bottom: 28px; }
+    .logo-fbz { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: var(--morado); }
+    .logo-fbz img { width: 44px; height: auto; display: block; }
 
     .hero .envoltura { z-index: 1; }
 
@@ -162,7 +163,7 @@
     }
     .fecha .mes { font-size: clamp(1.05rem, 5vw, 1.5rem); font-weight: 500; line-height: 1.2; }
     .fecha .raya { display: block; width: 56px; height: 4px; background: var(--naranja); margin: 14px 0; }
-    .fecha .hora { font-family: var(--titulo); font-size: clamp(1.9rem, 9vw, 3rem); line-height: 1; }
+    .fecha .hora { font-family: var(--titulo); font-size: min(7.4vw, 3rem); line-height: 1; white-space: nowrap; }
     .fecha .zona { font-size: 0.95rem; margin-bottom: 14px; }
     .fecha .zoom { display: inline-block; margin-top: 14px; padding: 6px 12px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #fff; background: var(--morado); }
 
@@ -310,7 +311,7 @@
     <div class="cinta sup-der" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="envoltura">
       <div class="logo">
-        <img src="assets/logo-femme-bizz-color.png" alt="Femme Bizz" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-texto',textContent:'Femme Bizz'}))">
+        <span class="logo-fbz"><img src="assets/logo-fbz-blanco.png" alt="Femme Bizz" width="360" height="233"></span>
       </div>
 
       <p class="sobretitulo">Femme Readers</p>
@@ -320,7 +321,7 @@
 
       <div class="portada-fecha">
         <div class="capas">
-          <img src="assets/portada-liderazgo-imperfecto.jpg" alt="Portada del libro Liderazgo Imperfecto, de Jose Echeverri" width="400" height="638" onerror="this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'">
+          <img src="assets/portada-liderazgo-imperfecto.jpg" alt="Portada del libro Liderazgo Imperfecto, de Jose Echeverri" width="560" height="887" onerror="this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'">
         </div>
         <div class="fecha">
           <p class="jueves">Jueves</p>
@@ -355,9 +356,8 @@
         <p>Es vicepresidente de Gestión Humana (CHRO) de Colombina, speaker internacional y mentor. Vive en Cali y estudió en la Pontificia Universidad Javeriana. Tiene más de 20 años de experiencia como ejecutivo de gestión humana en multinacionales de Latinoamérica, Estados Unidos y Europa.</p>
         <p>Es autor de <em>Liderazgo Imperfecto</em> y <em>El lado oscuro del liderazgo</em>, y creador de <em>Liderazgo Imperfecto en Acción</em>, con el que guía a líderes y equipos a transformar sus organizaciones desde un liderazgo humano, consciente y real. En LinkedIn lo siguen más de 170.000 personas.</p>
       </div>
-      <!-- Foto de Jose: guarda el archivo como assets/jose-echeverri.jpg. Mientras no exista, se muestra la portada del libro. -->
       <div class="capas">
-        <img src="assets/jose-echeverri.jpg" alt="Jose Echeverri"
+        <img src="assets/jose-echeverri.jpg" alt="Jose Echeverri sonriendo, con suéter azul" width="720" height="900" loading="lazy"
              onerror="this.onerror=function(){this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'};this.alt='Portada del libro Liderazgo Imperfecto';this.src='assets/portada-liderazgo-imperfecto.jpg'">
       </div>
     </div>
