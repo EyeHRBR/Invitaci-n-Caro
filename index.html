@@ -3,345 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Vamos a hacer ruido</title>
-  <meta name="description" content="Te quiero en mi cumple. Cuéntame si vienes.">
+  <title>Gracias por venir</title>
+  <meta name="robots" content="noindex">
   <meta name="theme-color" content="#9E1458">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800&family=DM+Sans:wght@400&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --fucsia: #9E1458;
-      --verde: #1F7A74;
-      --coral: #F0614F;
       --mostaza: #F7B733;
       --crema: #FFF4EA;
-      --texto: #3a1027;
-
-      --fuente-titulo: "Fraunces", Georgia, serif;
-      --fuente-cuerpo: "DM Sans", system-ui, sans-serif;
     }
 
-    * { box-sizing: border-box; }
-
-    html, body { margin: 0; }
+    html, body { margin: 0; height: 100%; }
 
     body {
-      background: var(--crema);
-      color: var(--texto);
-      font-family: var(--fuente-cuerpo);
-      font-size: 16px;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Encabezado */
-    header {
+      display: grid;
+      place-items: center;
       background: var(--fucsia);
       color: var(--crema);
+      font-family: "DM Sans", system-ui, sans-serif;
       text-align: center;
-      padding: 36px 20px 64px;
-      border-radius: 0 0 32px 32px;
-    }
-
-    .contenido { max-width: 440px; margin: 0 auto; }
-
-    .arco {
-      width: min(72vw, 280px);
-      aspect-ratio: 3 / 4;
-      margin: 0 auto 28px;
-      border: 10px solid var(--crema);
-      border-radius: 999px 999px 0 0;
-      overflow: hidden;
-      background: var(--crema);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-    }
-
-    .arco img { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-    .linea-superior {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin: 0 0 8px;
+      padding: 24px 20px;
+      box-sizing: border-box;
     }
 
     h1 {
-      font-family: var(--fuente-titulo);
+      font-family: "Fraunces", Georgia, serif;
       font-weight: 800;
-      font-size: clamp(2.5rem, 12vw, 3.25rem);
-      line-height: 1.02;
-      margin: 0 0 16px;
+      font-size: clamp(2.4rem, 11vw, 3.2rem);
+      line-height: 1.05;
       color: var(--mostaza);
+      margin: 0 0 16px;
     }
 
-    .mensaje-intro { margin: 0; font-size: 1.05rem; }
-
-    /* Datos */
-    .datos {
-      list-style: none;
-      width: calc(100% - 40px);
-      max-width: 400px;
-      margin: -36px auto 0;
-      padding: 20px;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(58, 16, 39, 0.1);
-      display: grid;
-      gap: 12px;
-      position: relative;
-    }
-
-    .datos li { display: flex; gap: 12px; align-items: baseline; }
-
-    .datos .etiqueta {
-      flex: 0 0 52px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--verde);
-    }
-
-    .datos .valor { font-weight: 500; }
-
-    /* Formulario */
-    main { padding: 36px 20px 56px; }
-
-    .intro-form {
-      font-family: var(--fuente-titulo);
-      font-weight: 600;
-      font-size: 1.4rem;
-      line-height: 1.25;
-      text-align: center;
-      color: var(--fucsia);
-      margin: 0 0 28px;
-    }
-
-    form { display: grid; gap: 24px; }
-
-    label, legend {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--verde);
-    }
-
-    .opcional { font-weight: 400; color: #7a6470; }
-
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 14px 16px;
-      font: inherit;
-      color: var(--texto);
-      background: #fff;
-      border: 2px solid #ecd9cc;
-      border-radius: 14px;
-    }
-
-    textarea { min-height: 84px; resize: vertical; }
-
-    input:focus, textarea:focus { outline: none; border-color: var(--verde); }
-
-    fieldset { border: 0; padding: 0; margin: 0; }
-
-    .opciones { display: grid; gap: 10px; }
-    .opciones.dos { grid-template-columns: 1fr 1fr; }
-
-    .campos-voy { display: grid; gap: 24px; }
-
-    .opcion { margin: 0; color: var(--texto); font-weight: 500; }
-
-    .opcion input { position: absolute; opacity: 0; pointer-events: none; }
-
-    .opcion span {
-      display: block;
-      padding: 14px 16px;
-      text-align: center;
-      background: #fff;
-      border: 2px solid var(--verde);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .opcion input:checked + span { background: var(--verde); color: var(--crema); }
-
-    .opcion input:focus-visible + span { outline: 3px solid var(--mostaza); outline-offset: 2px; }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      font: inherit;
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--crema);
-      background: var(--fucsia);
-      border: 0;
-      border-radius: 999px;
-      box-shadow: 0 4px 0 var(--coral);
-      cursor: pointer;
-    }
-
-    button:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--coral); }
-    button:disabled { opacity: 0.6; cursor: wait; }
-
-    .error { color: var(--fucsia); font-weight: 500; margin: 0; min-height: 1.5em; text-align: center; }
-
-    /* Mensajes de respuesta */
-    .respuesta {
-      display: none;
-      text-align: center;
-      padding: 28px 20px;
-      background: #fff;
-      border-radius: 20px;
-      border-top: 6px solid var(--coral);
-    }
-
-    .respuesta.visible { display: block; }
-
-    .respuesta p {
-      font-family: var(--fuente-titulo);
-      font-weight: 600;
-      font-size: 1.35rem;
-      line-height: 1.3;
-      color: var(--fucsia);
-      margin: 0;
-    }
-
-    [hidden] { display: none !important; }
+    p { margin: 0; font-size: 1.1rem; }
   </style>
 </head>
 <body>
-  <header>
-    <div class="contenido">
-      <div class="arco">
-        <img src="foto_invitacion.jpg" alt="" onerror="this.remove()">
-      </div>
-      <p class="linea-superior">Te quiero en mi cumple</p>
-      <h1>Vamos a hacer ruido</h1>
-      <p class="mensaje-intro">Cumplo años y solo pido tres cosas: tu risa, tu compañía y una foto donde salgamos despeinados.</p>
-    </div>
-  </header>
-
-  <ul class="datos">
-    <li><span class="etiqueta">Fecha</span><span class="valor">Viernes 23 de octubre</span></li>
-    <li><span class="etiqueta">Hora</span><span class="valor">7:30 pm</span></li>
-    <li><span class="etiqueta">Lugar</span><span class="valor">Central Av 19 · Av 19 # 118-92</span></li>
-  </ul>
-
   <main>
-    <div class="contenido">
-      <p class="intro-form" id="intro-form">Cuéntame si vienes. Te toma 10 segundos.</p>
-
-      <form id="formulario" novalidate>
-        <div>
-          <label for="nombre">¿Cómo te llamas?</label>
-          <input type="text" id="nombre" name="nombre" autocomplete="name" required>
-        </div>
-
-        <fieldset>
-          <legend>¿Vienes?</legend>
-          <div class="opciones">
-            <label class="opcion"><input type="radio" name="respuesta" value="Voy" required><span>¡Voy!</span></label>
-            <label class="opcion"><input type="radio" name="respuesta" value="No voy"><span>No puedo, pero te quiero igual</span></label>
-          </div>
-        </fieldset>
-
-        <div class="campos-voy" id="campos-voy">
-          <fieldset>
-            <legend>¿Vienes con acompañante?</legend>
-            <div class="opciones dos">
-              <label class="opcion"><input type="radio" name="con-acompanante" value="si"><span>Sí</span></label>
-              <label class="opcion"><input type="radio" name="con-acompanante" value="no" checked><span>No</span></label>
-            </div>
-          </fieldset>
-
-          <div id="campo-acompanante" hidden>
-            <label for="acompanante">¿Cómo se llama tu acompañante?</label>
-            <input type="text" id="acompanante" name="acompanante" autocomplete="off">
-          </div>
-
-          <div>
-            <label for="restricciones">¿Alguna restricción con la comida? <span class="opcional">(opcional)</span></label>
-            <textarea id="restricciones" name="restricciones"></textarea>
-          </div>
-        </div>
-
-        <p class="error" id="error" role="alert"></p>
-        <button type="submit" id="enviar">Confirmar</button>
-      </form>
-
-      <div class="respuesta" id="msg-voy" role="status"><p>¡Listo! Ya tengo tu nombre en la lista. Nos vemos el 23.</p></div>
-      <div class="respuesta" id="msg-novoy" role="status"><p>Qué pena, te voy a extrañar. Gracias por avisarme.</p></div>
-      <div class="respuesta" id="msg-lleno" role="status"><p>Ya completamos el cupo, pero te quiero igual.</p></div>
-    </div>
+    <h1>¡Hicimos ruido!</h1>
+    <p>La fiesta ya pasó. Gracias por celebrar conmigo.</p>
   </main>
-
-  <script>
-    // Pega aquí la URL de tu Apps Script publicado (termina en /exec)
-    const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbyo7iS7JVk42G188Ob8agroH1cWeP6QW2GJ2yK_0sxtvGUlyDhvaOSds2oycagVF8QpLQ/exec";
-
-    const form = document.getElementById("formulario");
-    const error = document.getElementById("error");
-    const boton = document.getElementById("enviar");
-    const camposVoy = document.getElementById("campos-voy");
-    const campoAcompanante = document.getElementById("campo-acompanante");
-
-    form.addEventListener("change", (e) => {
-      if (e.target.name === "respuesta") {
-        camposVoy.hidden = e.target.value !== "Voy";
-      }
-      if (e.target.name === "con-acompanante") {
-        campoAcompanante.hidden = e.target.value !== "si";
-      }
-    });
-
-    function mostrar(id) {
-      form.hidden = true;
-      document.getElementById("intro-form").hidden = true;
-      document.getElementById(id).classList.add("visible");
-    }
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      error.textContent = "";
-
-      const nombre = form.nombre.value.trim();
-      const respuesta = form.respuesta.value;
-      const va = respuesta === "Voy";
-      const conAcompanante = va && form["con-acompanante"].value === "si";
-      const acompanante = conAcompanante ? form.acompanante.value.trim() : "";
-      const restricciones = va ? form.restricciones.value.trim() : "";
-
-      if (!nombre) { error.textContent = "Escribe tu nombre, por favor."; return; }
-      if (!respuesta) { error.textContent = "Cuéntame si vienes."; return; }
-      if (conAcompanante && !acompanante) { error.textContent = "Escribe el nombre de tu acompañante."; return; }
-
-      boton.disabled = true;
-      boton.textContent = "Enviando…";
-
-      try {
-        // text/plain evita la verificación CORS previa que Apps Script no admite
-        const res = await fetch(URL_SCRIPT, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ nombre, respuesta, acompanante, restricciones })
-        });
-        const datos = await res.json();
-
-        if (datos.estado === "lleno") mostrar("msg-lleno");
-        else if (datos.estado === "ok") mostrar(respuesta === "Voy" ? "msg-voy" : "msg-novoy");
-        else throw new Error(datos.mensaje || "Respuesta inesperada");
-      } catch (err) {
-        error.textContent = "Algo falló. Intenta de nuevo o escríbeme directo.";
-        boton.disabled = false;
-        boton.textContent = "Confirmar";
-      }
-    });
-  </script>
 </body>
 </html>
