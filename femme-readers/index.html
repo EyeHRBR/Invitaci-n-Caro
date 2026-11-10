@@ -3,561 +3,612 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Femme Readers · Cierre con José Echeverri</title>
-  <meta name="description" content="Encuentro de cierre por Zoom con José Echeverri, autor de Liderazgo Imperfecto. Jueves 19 de noviembre, 5:00 p. m. (hora Colombia). Confirma tu asistencia.">
-  <meta name="theme-color" content="#4A1D3F">
+  <title>Conversemos con Jose Echeverri · Femme Readers</title>
+  <meta name="description" content="Encuentro de cierre de Liderazgo Imperfecto con su autor, Jose Echeverri. Jueves 19 de noviembre, 5:00 p. m. (hora Colombia), por Zoom. Confirma tu asistencia y envía tu pregunta.">
+  <meta name="theme-color" content="#9D3DC1">
+
+  <!-- Imagen para compartir en redes. Cuando publiques el sitio, cambia la ruta por la URL completa
+       (por ejemplo https://tu-sitio.netlify.app/assets/Femme-Readers-Invitacion-Jose-Echeverri.png) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Conversemos con Jose Echeverri">
+  <meta property="og:description" content="Encuentro de cierre de Liderazgo Imperfecto con su autor. Jueves 19 de noviembre, 5:00 p. m. (hora Colombia), por Zoom.">
+  <meta property="og:image" content="assets/Femme-Readers-Invitacion-Jose-Echeverri.png">
+  <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --ciruela: #4A1D3F;
-      --rosa: #E8B4B8;
-      --rosa-claro: #F8E6E4;
-      --dorado: #C9963B;
-      --crema: #FFF9F4;
-      --texto: #2E1A28;
-      --suave: #7A6372;
-      --borde: #EAD7D3;
+    @font-face {
+      font-family: "Wild Mango";
+      src: url("assets/Wild_Mango.otf") format("opentype");
+      font-display: swap;
+    }
 
-      --fuente-titulo: "Cormorant Garamond", Georgia, serif;
-      --fuente-cuerpo: "DM Sans", system-ui, sans-serif;
+    :root {
+      --gris: #3C3C3B;
+      --rosa: #F9197F;
+      --tigre: #FD513D;
+      --naranja: #FA720A;
+      --morado: #9D3DC1;
+      --dorado: #D4A94A;
+      --gris-suave: #6B6B69;
+      --linea: #E4E1E6;
+      --fondo-suave: #FAF7FC;
+      --error: #C0114F;
+
+      --titulo: "Wild Mango", "Poppins", Georgia, serif;
+      --cuerpo: "Poppins", system-ui, sans-serif;
     }
 
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     html, body { margin: 0; }
 
     body {
-      background: var(--crema);
-      color: var(--texto);
-      font-family: var(--fuente-cuerpo);
+      background: #fff;
+      color: var(--gris);
+      font-family: var(--cuerpo);
       font-size: 16px;
-      line-height: 1.55;
+      line-height: 1.6;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    .contenido { max-width: 520px; margin: 0 auto; }
+    .envoltura { max-width: 560px; margin: 0 auto; padding: 0 20px; position: relative; }
 
-    /* Encabezado */
-    header {
-      background: var(--ciruela);
-      color: var(--crema);
-      text-align: center;
-      padding: 44px 20px 76px;
-      border-radius: 0 0 36px 36px;
-    }
+    a { color: var(--morado); }
 
-    .club {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--rosa);
-      margin: 0 0 18px;
-    }
+    :focus-visible { outline: 3px solid var(--morado); outline-offset: 3px; }
 
-    .especial {
+    /* Cintas diagonales (triángulos anidados) */
+    .cinta { position: absolute; width: 150px; height: 150px; pointer-events: none; z-index: 0; }
+    .cinta span { position: absolute; }
+    .cinta span:nth-child(1) { background: var(--rosa); width: 100%; height: 100%; }
+    .cinta span:nth-child(2) { background: var(--naranja); width: 70%; height: 70%; }
+    .cinta span:nth-child(3) { background: var(--morado); width: 42%; height: 42%; }
+
+    .cinta.sup-der { top: 0; right: 0; }
+    .cinta.sup-der span { top: 0; right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+
+    .cinta.inf-izq { bottom: 0; left: 0; }
+    .cinta.inf-izq span { bottom: 0; left: 0; clip-path: polygon(0 0, 0 100%, 100% 100%); }
+
+    /* Botones */
+    .boton {
       display: inline-block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      padding: 6px 14px;
-      border: 1px solid var(--dorado);
-      border-radius: 999px;
-      color: var(--dorado);
-      margin: 0 0 18px;
-    }
-
-    h1 {
-      font-family: var(--fuente-titulo);
+      width: 100%;
+      padding: 16px 20px;
+      font-family: var(--cuerpo);
       font-weight: 700;
-      font-size: clamp(2.3rem, 10vw, 3.2rem);
-      line-height: 1.05;
-      margin: 0 0 16px;
-    }
-
-    h1 em { font-style: italic; font-weight: 500; color: var(--rosa); }
-
-    .intro { margin: 0; font-size: 1.05rem; opacity: 0.92; }
-
-    /* Tarjeta de datos */
-    .datos {
-      width: calc(100% - 32px);
-      max-width: 480px;
-      margin: -44px auto 0;
-      padding: 22px;
-      background: #fff;
-      border-radius: 22px;
-      box-shadow: 0 10px 28px rgba(74, 29, 63, 0.12);
-      position: relative;
-    }
-
-    .datos ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-    .datos li { display: flex; gap: 12px; align-items: baseline; }
-
-    .etiqueta {
-      flex: 0 0 64px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--dorado);
-    }
-
-    .valor { font-weight: 500; overflow-wrap: anywhere; }
-
-    .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
-
-    .boton-sec {
-      display: block;
       text-align: center;
-      padding: 12px 10px;
-      font-weight: 700;
-      font-size: 0.92rem;
       text-decoration: none;
-      color: var(--ciruela);
-      border: 2px solid var(--ciruela);
-      border-radius: 999px;
+      color: #fff;
+      background: var(--morado);
+      border: 2px solid var(--morado);
+      border-radius: 0;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
     }
 
-    .boton-sec.lleno { background: var(--ciruela); color: var(--crema); }
+    .boton:hover { background: var(--rosa); border-color: var(--rosa); }
+    .boton:disabled { opacity: 0.6; cursor: wait; }
 
-    /* Secciones */
-    section { padding: 40px 20px 0; }
+    .boton.secundario { background: #fff; color: var(--morado); }
+    .boton.secundario:hover { background: var(--rosa); border-color: var(--rosa); color: #fff; }
 
-    h2 {
-      font-family: var(--fuente-titulo);
+    /* Etiquetas en cuadrados */
+    .etiqueta {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.75rem;
       font-weight: 700;
-      font-size: 1.9rem;
-      line-height: 1.15;
-      color: var(--ciruela);
-      margin: 0 0 14px;
-    }
-
-    .subtitulo {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--dorado);
-      margin: 0 0 6px;
+      color: #fff;
+      background: var(--morado);
     }
 
-    p { margin: 0 0 14px; }
-
-    /* Autor */
-    .autor {
-      background: var(--rosa-claro);
-      border-radius: 22px;
-      padding: 26px 22px;
-    }
-
-    .autor-cabecera { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; }
-
-    .inicial {
-      flex: 0 0 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: var(--ciruela);
-      color: var(--rosa);
-      display: grid;
+    .num {
+      display: inline-grid;
       place-items: center;
-      font-family: var(--fuente-titulo);
-      font-size: 1.7rem;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
       font-weight: 700;
+      color: #fff;
+      background: var(--morado);
     }
 
-    .autor-cabecera h2 { margin: 0; }
-    .autor-cabecera .libro { margin: 2px 0 0; color: var(--suave); font-style: italic; }
+    h1, h2 { font-family: var(--titulo); font-weight: 400; line-height: 1.05; margin: 0; }
 
-    .pilares { list-style: none; counter-reset: pilar; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+    /* Hero */
+    .hero { position: relative; padding: 24px 0 48px; }
 
-    .pilares li {
-      counter-increment: pilar;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      background: #fff;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-weight: 500;
+    .logo { position: relative; z-index: 1; display: flex; align-items: center; min-height: 44px; margin-bottom: 36px; }
+    .logo img { height: 44px; width: auto; display: block; }
+    .logo-texto { font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--morado); }
+
+    .hero .envoltura { z-index: 1; }
+
+    .hero h1 { font-size: clamp(2.5rem, 12vw, 3.6rem); color: var(--gris); margin: 14px 0 6px; }
+    .hero h1 .nombre { color: var(--morado); display: block; }
+
+    .autor-de { font-size: 1.05rem; margin: 0 0 28px; }
+    .autor-de strong { font-weight: 700; }
+
+    .fecha { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+
+    .dia {
+      font-family: var(--titulo);
+      font-size: clamp(6.5rem, 34vw, 9rem);
+      line-height: 0.85;
+      color: var(--rosa);
     }
 
-    .pilares li::before {
-      content: counter(pilar);
-      flex: 0 0 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--dorado);
+    .fecha-detalle { font-size: 1rem; line-height: 1.45; }
+    .fecha-detalle .mes { display: block; font-weight: 700; font-size: 1.35rem; color: var(--gris); }
+    .fecha-detalle .zona { color: var(--gris-suave); font-size: 0.92rem; }
+
+    /* Imagen con bloques de color detrás */
+    .capas { position: relative; width: min(64%, 240px); margin: 0 0 40px 18px; }
+    .capas::before, .capas::after { content: ""; position: absolute; z-index: 0; }
+    .capas::before { background: var(--rosa); inset: -14px 18px 26px -18px; }
+    .capas::after { background: var(--naranja); inset: 26px -18px -16px 30px; }
+    .capas img, .capas .reemplazo { position: relative; z-index: 1; display: block; width: 100%; height: auto; box-shadow: 0 10px 24px rgba(60, 60, 59, 0.18); }
+    .capas .reemplazo {
+      aspect-ratio: 2 / 3;
+      background: var(--morado);
       color: #fff;
       display: grid;
       place-items: center;
-      font-weight: 700;
-      font-size: 0.9rem;
+      text-align: center;
+      padding: 20px;
+      font-family: var(--titulo);
+      font-size: 1.6rem;
+      line-height: 1.1;
     }
 
-    /* Preparación */
-    .prep { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-    .prep li { display: flex; gap: 12px; }
-    .prep .icono { flex: 0 0 28px; font-size: 1.3rem; line-height: 1.4; }
-    .nota { color: var(--suave); font-style: italic; margin-top: 16px; }
+    /* Secciones */
+    section { padding: 44px 0; position: relative; }
+    section h2 { font-size: clamp(2rem, 9vw, 2.6rem); color: var(--gris); margin: 14px 0 16px; }
+    section p { margin: 0 0 14px; }
+
+    .franja { background: var(--fondo-suave); }
+
+    .destacado {
+      border-left: 6px solid var(--rosa);
+      padding: 12px 16px;
+      background: #fff;
+      font-weight: 500;
+      margin-top: 20px;
+    }
+
+    .autor-grid { display: grid; gap: 34px; }
+    .autor-grid .capas { margin: 8px 0 0 18px; width: min(60%, 220px); }
 
     /* Formulario */
-    main { padding: 44px 20px 64px; }
+    form { display: grid; gap: 40px; }
 
-    .tarjeta-form {
-      background: #fff;
-      border-radius: 22px;
-      padding: 28px 22px;
-      box-shadow: 0 10px 28px rgba(74, 29, 63, 0.08);
-      border-top: 6px solid var(--rosa);
-    }
+    .bloque { display: grid; gap: 26px; }
+    .bloque-titulo { display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 3px solid var(--morado); }
+    .bloque-titulo h3 { font-family: var(--titulo); font-weight: 400; font-size: 1.8rem; line-height: 1.1; margin: 0; }
 
-    form { display: grid; gap: 24px; }
+    .campo { display: grid; gap: 8px; }
 
-    label, legend {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--ciruela);
-    }
+    label, legend { font-weight: 700; color: var(--gris); padding: 0; }
+    .opcional { font-weight: 400; color: var(--gris-suave); }
+    .ayuda { font-size: 0.88rem; color: var(--gris-suave); margin: -4px 0 0; }
 
-    .opcional { font-weight: 400; color: var(--suave); }
-    .ayuda { display: block; font-weight: 400; font-size: 0.88rem; color: var(--suave); margin-top: 2px; }
-
-    input[type="text"], input[type="email"], textarea {
+    input[type="text"], input[type="email"], input[type="tel"], textarea {
       width: 100%;
-      padding: 14px 16px;
+      padding: 13px 14px;
       font: inherit;
-      color: var(--texto);
-      background: var(--crema);
-      border: 2px solid var(--borde);
-      border-radius: 14px;
+      color: var(--gris);
+      background: #fff;
+      border: 2px solid var(--linea);
+      border-radius: 0;
     }
 
-    textarea { min-height: 96px; resize: vertical; }
-    input:focus, textarea:focus { outline: none; border-color: var(--ciruela); }
+    textarea { min-height: 110px; resize: vertical; }
+    input:focus, textarea:focus { outline: none; border-color: var(--morado); box-shadow: 0 0 0 3px rgba(157, 61, 193, 0.2); }
 
-    fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+    .invalido input, .invalido textarea { border-color: var(--error); }
 
-    .opciones { display: grid; gap: 10px; }
+    fieldset { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 8px; }
+    legend { margin-bottom: 8px; }
+
+    .opciones { display: grid; gap: 8px; }
+    .opciones.tres { grid-template-columns: repeat(3, 1fr); }
     .opciones.dos { grid-template-columns: 1fr 1fr; }
 
-    .campos-si { display: grid; gap: 24px; }
-
-    .opcion { margin: 0; color: var(--texto); font-weight: 500; }
-    .opcion input { position: absolute; opacity: 0; pointer-events: none; }
-
+    .opcion { position: relative; font-weight: 500; }
+    .opcion input { position: absolute; opacity: 0; width: 1px; height: 1px; }
     .opcion span {
-      display: block;
-      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      height: 100%;
+      padding: 10px 12px;
       text-align: center;
+      line-height: 1.3;
       background: #fff;
-      border: 2px solid var(--borde);
-      border-radius: 14px;
+      border: 2px solid var(--linea);
       cursor: pointer;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
     }
+    .opcion span:hover { border-color: var(--morado); }
+    .opcion input:checked + span { background: var(--morado); border-color: var(--morado); color: #fff; }
+    .opcion input:focus-visible + span { outline: 3px solid var(--rosa); outline-offset: 2px; }
+    .invalido .opcion span { border-color: var(--error); }
 
-    .opcion input:checked + span { background: var(--ciruela); border-color: var(--ciruela); color: var(--crema); }
-    .opcion input:focus-visible + span { outline: 3px solid var(--dorado); outline-offset: 2px; }
+    .doble { display: grid; gap: 12px; }
 
-    button {
-      width: 100%;
-      padding: 16px;
-      font: inherit;
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--crema);
-      background: var(--ciruela);
-      border: 0;
-      border-radius: 999px;
-      box-shadow: 0 4px 0 var(--dorado);
-      cursor: pointer;
+    .autorizacion { display: flex; gap: 12px; align-items: flex-start; font-weight: 400; }
+    .autorizacion input { width: 22px; height: 22px; flex: 0 0 22px; margin: 2px 0 0; accent-color: var(--morado); }
+    .invalido.autorizacion-campo { outline: 2px solid var(--error); outline-offset: 6px; }
+
+    .msg-error { color: var(--error); font-size: 0.9rem; font-weight: 500; margin: 0; }
+    .msg-error:empty { display: none; }
+
+    .error-general { color: var(--error); font-weight: 500; text-align: center; margin: 0; min-height: 1.5em; }
+
+    /* Gracias */
+    .gracias { display: none; }
+    .gracias.visible { display: block; }
+    .gracias h2 { color: var(--morado); }
+
+    .tarjeta {
+      border: 2px solid var(--linea);
+      border-top: 8px solid var(--rosa);
+      padding: 22px 18px;
+      margin: 22px 0;
+      display: grid;
+      gap: 10px;
     }
+    .tarjeta .fila { display: flex; gap: 12px; }
+    .tarjeta .clave { flex: 0 0 72px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--morado); padding-top: 3px; }
+    .tarjeta .valor { font-weight: 500; overflow-wrap: anywhere; }
 
-    button:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--dorado); }
-    button:disabled { opacity: 0.6; cursor: wait; }
+    .acciones { display: grid; gap: 12px; }
+    .nota-ics { font-size: 0.88rem; text-align: center; margin: 4px 0 0; }
 
-    .error { color: #A3203C; font-weight: 500; margin: 0; min-height: 1.5em; text-align: center; }
-
-    .respuesta { display: none; text-align: center; }
-    .respuesta.visible { display: block; }
-
-    .respuesta .grande {
-      font-family: var(--fuente-titulo);
-      font-weight: 700;
-      font-size: 1.6rem;
-      line-height: 1.25;
-      color: var(--ciruela);
-      margin: 0 0 12px;
-    }
-
-    .respuesta .acciones { margin-top: 20px; }
-
-    footer { text-align: center; padding: 0 20px 40px; color: var(--suave); font-size: 0.9rem; }
+    footer { position: relative; padding: 56px 20px 160px; text-align: center; font-size: 0.9rem; color: var(--gris-suave); }
 
     [hidden] { display: none !important; }
 
+    @media (min-width: 520px) {
+      .doble { grid-template-columns: 1fr 1fr; }
+      .acciones.lado { grid-template-columns: 1fr 1fr; }
+      .cinta { width: 220px; height: 220px; }
+    }
+
     @media (max-width: 360px) {
-      .acciones, .opciones.dos { grid-template-columns: 1fr; }
+      .opciones.tres { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="contenido">
-      <p class="club">Femme Readers · Club de lectura</p>
-      <p class="especial">✨ Tenemos invitado especial ✨</p>
-      <h1>Cierre con <em>José Echeverri</em></h1>
-      <p class="intro">El autor de <strong>Liderazgo Imperfecto</strong> nos acompaña en un encuentro por Zoom para conversar sobre el libro, responder nuestras preguntas y contarnos lo que hay detrás de sus páginas.</p>
+  <header class="hero">
+    <div class="cinta sup-der" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="envoltura">
+      <div class="logo">
+        <img src="assets/logo-femme-bizz-color.png" alt="Femme Bizz" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-texto',textContent:'Femme Bizz'}))">
+      </div>
+
+      <span class="etiqueta">Femme Readers · Encuentro de cierre</span>
+      <h1>Conversemos con <span class="nombre">Jose Echeverri</span></h1>
+      <p class="autor-de">autor de <strong>Liderazgo Imperfecto</strong></p>
+
+      <div class="fecha">
+        <span class="dia">19</span>
+        <p class="fecha-detalle">
+          <span class="mes">de noviembre</span>
+          Jueves · 5:00 p. m.<br>
+          <span class="zona">Hora Colombia · Por Zoom</span>
+        </p>
+      </div>
+
+      <div class="capas">
+        <img src="assets/portada-liderazgo-imperfecto.png" alt="Portada del libro Liderazgo Imperfecto" onerror="this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'">
+      </div>
+
+      <a class="boton" href="#confirmar">Confirmar asistencia</a>
     </div>
   </header>
 
-  <div class="datos">
-    <ul>
-      <li><span class="etiqueta">Fecha</span><span class="valor">Jueves 19 de noviembre</span></li>
-      <li><span class="etiqueta">Hora</span><span class="valor">5:00 p. m. (hora Colombia)</span></li>
-      <li><span class="etiqueta">Dónde</span><span class="valor">Zoom · ID 845 4882 8919 · Código 084145</span></li>
-    </ul>
-    <div class="acciones">
-      <a class="boton-sec lleno" href="https://us02web.zoom.us/j/84548828919?pwd=YxmzVifjs8u6bMxO5mTk1I2comzLgr.1" target="_blank" rel="noopener">Entrar a Zoom</a>
-      <a class="boton-sec" id="calendario" target="_blank" rel="noopener">Agregar al calendario</a>
-    </div>
-  </div>
-
-  <section>
-    <div class="contenido autor">
-      <div class="autor-cabecera">
-        <div class="inicial" aria-hidden="true">JE</div>
-        <div>
-          <p class="subtitulo">Sobre el autor</p>
-          <h2>José Echeverri</h2>
-          <p class="libro">Liderazgo Imperfecto: los 5 pilares del nuevo liderazgo</p>
-        </div>
-      </div>
-      <p>José Echeverri es el vicepresidente de Gestión Humana (CHRO) de Colombina, speaker internacional y mentor. Vive en Cali y estudió en la Pontificia Universidad Javeriana. Tiene más de 20 años de experiencia como ejecutivo de gestión humana en grandes multinacionales de Latinoamérica, Estados Unidos y Europa.</p>
-      <p>Es autor de <em>Liderazgo Imperfecto</em> y <em>El lado oscuro del liderazgo</em>, y creador de <em>Liderazgo Imperfecto en Acción</em>, con el que guía a líderes y equipos a transformar sus organizaciones desde un liderazgo humano, consciente y real. En LinkedIn lo siguen más de 170.000 personas, con quienes comparte reflexiones sobre liderazgo, inteligencia emocional y cultura organizacional.</p>
-      <p>En <em>Liderazgo Imperfecto</em> (2023) desafía el mito del “líder perfecto”: los mejores líderes no son quienes proyectan perfección, sino quienes abrazan su vulnerabilidad y autenticidad, siguen aprendiendo y cuidan a sus equipos.</p>
-      <p>Durante octubre, en Femme Readers, recorrimos sus cinco pilares:</p>
-      <ol class="pilares">
-        <li>Conectar desde quienes somos de verdad</li>
-        <li>Ser eternas aprendices</li>
-        <li>Abrazar la vulnerabilidad</li>
-        <li>Crear espacios seguros</li>
-        <li>Formar nuevas líderes</li>
-      </ol>
+  <section class="franja">
+    <div class="envoltura">
+      <span class="etiqueta">El encuentro</span>
+      <h2>Qué es este encuentro</h2>
+      <p>Durante octubre recorrimos juntas los 5 pilares del libro. Ahora conversamos con su autor, le hacemos nuestras preguntas y escuchamos lo que hay detrás.</p>
+      <p><strong>Si no terminaste el libro, ven igual.</strong></p>
+      <p class="destacado">Envía tu pregunta para Jose antes del lunes 16 de noviembre. Puedes dejarla en el formulario.</p>
     </div>
   </section>
 
   <section>
-    <div class="contenido">
-      <p class="subtitulo">Para aprovechar el encuentro</p>
-      <h2>Antes del 19</h2>
-      <ul class="prep">
-        <li><span class="icono" aria-hidden="true">📝</span><span>Envía tu pregunta para José <strong>antes del lunes 16</strong>. Puedes dejarla aquí abajo, en el formulario.</span></li>
-        <li><span class="icono" aria-hidden="true">📖</span><span>Dale una repasada a tus subrayados y notas del libro.</span></li>
-        <li><span class="icono" aria-hidden="true">💛</span><span>Invita a alguien que también lo haya leído o a quien le pueda servir esta conversación.</span></li>
-      </ul>
-      <p class="nota">¿No alcanzaste a terminar el libro? ¡Ven igual! La conversación te va a sumar muchísimo.</p>
+    <div class="envoltura autor-grid">
+      <div>
+        <span class="etiqueta">Sobre el autor</span>
+        <h2>Jose Echeverri</h2>
+        <p>Es vicepresidente de Gestión Humana (CHRO) de Colombina, speaker internacional y mentor. Vive en Cali y estudió en la Pontificia Universidad Javeriana. Tiene más de 20 años de experiencia como ejecutivo de gestión humana en multinacionales de Latinoamérica, Estados Unidos y Europa.</p>
+        <p>Es autor de <em>Liderazgo Imperfecto</em> y <em>El lado oscuro del liderazgo</em>, y creador de <em>Liderazgo Imperfecto en Acción</em>, con el que guía a líderes y equipos a transformar sus organizaciones desde un liderazgo humano, consciente y real. En LinkedIn lo siguen más de 170.000 personas.</p>
+      </div>
+      <!-- Foto de Jose: guarda el archivo como assets/jose-echeverri.jpg. Mientras no exista, se muestra la portada del libro. -->
+      <div class="capas">
+        <img src="assets/jose-echeverri.jpg" alt="Jose Echeverri"
+             onerror="this.onerror=function(){this.outerHTML='<div class=&quot;reemplazo&quot;>Liderazgo Imperfecto</div>'};this.alt='Portada del libro Liderazgo Imperfecto';this.src='assets/portada-liderazgo-imperfecto.png'">
+      </div>
     </div>
   </section>
 
-  <main>
-    <div class="contenido tarjeta-form">
-      <div id="bloque-form">
-        <p class="subtitulo">Confirma tu asistencia</p>
-        <h2>¿Nos acompañas? 🙋‍♀️</h2>
+  <main id="confirmar" class="franja">
+    <section>
+      <div class="envoltura">
+        <div id="zona-form">
+          <span class="etiqueta">Confirma tu asistencia</span>
+          <h2>Te esperamos</h2>
+          <p>Los campos sin la marca “opcional” son obligatorios.</p>
 
-        <form id="formulario" novalidate>
-          <div>
-            <label for="nombre">¿Cómo te llamas?</label>
-            <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+          <form id="formulario" novalidate>
+            <div class="bloque">
+              <div class="bloque-titulo"><span class="num">1</span><h3>Confirma tu asistencia</h3></div>
+
+              <div class="campo" data-campo="nombre">
+                <label for="nombre">Nombre y apellido</label>
+                <input type="text" id="nombre" name="nombre" autocomplete="name" aria-describedby="err-nombre">
+                <p class="msg-error" id="err-nombre"></p>
+              </div>
+
+              <div class="campo" data-campo="correo">
+                <label for="correo">Correo electrónico</label>
+                <p class="ayuda" id="ayuda-correo">Te enviamos el enlace de Zoom a este correo.</p>
+                <input type="email" id="correo" name="correo" autocomplete="email" inputmode="email" aria-describedby="ayuda-correo err-correo">
+                <p class="msg-error" id="err-correo"></p>
+              </div>
+
+              <div class="campo" data-campo="whatsapp">
+                <label for="whatsapp">WhatsApp</label>
+                <p class="ayuda" id="ayuda-wa">Con indicativo si no estás en Colombia. Ejemplo: +52 55 1234 5678</p>
+                <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" inputmode="tel" aria-describedby="ayuda-wa err-whatsapp">
+                <p class="msg-error" id="err-whatsapp"></p>
+              </div>
+
+              <fieldset class="campo" data-campo="genero" aria-describedby="err-genero">
+                <legend>Género</legend>
+                <div class="opciones tres">
+                  <label class="opcion"><input type="radio" name="genero" value="Femenino"><span>Femenino</span></label>
+                  <label class="opcion"><input type="radio" name="genero" value="Masculino"><span>Masculino</span></label>
+                  <label class="opcion"><input type="radio" name="genero" value="Prefiero no decirlo"><span>Prefiero no decirlo</span></label>
+                </div>
+                <p class="msg-error" id="err-genero"></p>
+              </fieldset>
+
+              <fieldset class="campo" data-campo="asiste" aria-describedby="err-asiste">
+                <legend>¿Nos acompañas el jueves 19 de noviembre a las 5:00 p. m. (hora Colombia)?</legend>
+                <div class="opciones dos">
+                  <label class="opcion"><input type="radio" name="asiste" value="Sí"><span>Sí</span></label>
+                  <label class="opcion"><input type="radio" name="asiste" value="No puedo, quiero la grabación"><span>No puedo, pero quiero la grabación</span></label>
+                </div>
+                <p class="msg-error" id="err-asiste"></p>
+              </fieldset>
+
+              <fieldset class="campo">
+                <legend>¿Terminaste el libro? <span class="opcional">(opcional)</span></legend>
+                <div class="opciones tres">
+                  <label class="opcion"><input type="radio" name="libro" value="Sí"><span>Sí</span></label>
+                  <label class="opcion"><input type="radio" name="libro" value="Casi"><span>Casi</span></label>
+                  <label class="opcion"><input type="radio" name="libro" value="No, pero voy a venir igual"><span>No, pero voy a venir igual</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset class="campo" data-campo="origen" aria-describedby="err-origen">
+                <legend>¿Cómo te enteraste de este encuentro?</legend>
+                <div class="opciones">
+                  <label class="opcion"><input type="radio" name="origen" value="Instagram de Femme Bizz"><span>Instagram de Femme Bizz</span></label>
+                  <label class="opcion"><input type="radio" name="origen" value="Grupo de WhatsApp de Femme Readers"><span>Grupo de WhatsApp de Femme Readers</span></label>
+                  <label class="opcion"><input type="radio" name="origen" value="Una amiga o conocido me invitó"><span>Una amiga o conocido me invitó</span></label>
+                  <label class="opcion"><input type="radio" name="origen" value="Otra comunidad"><span>Otra comunidad</span></label>
+                  <label class="opcion"><input type="radio" name="origen" value="Otro"><span>Otro</span></label>
+                </div>
+                <p class="msg-error" id="err-origen"></p>
+              </fieldset>
+
+              <div class="campo">
+                <label for="invito">¿Quién te invitó o de qué comunidad vienes? <span class="opcional">(opcional)</span></label>
+                <input type="text" id="invito" name="invito" autocomplete="off">
+              </div>
+
+              <div class="campo">
+                <label for="ciudad">Ciudad y país <span class="opcional">(opcional)</span></label>
+                <input type="text" id="ciudad" name="ciudad" autocomplete="address-level2" placeholder="Ej.: Bogotá, Colombia">
+              </div>
+            </div>
+
+            <div class="bloque">
+              <div class="bloque-titulo"><span class="num">2</span><h3>Para Jose</h3></div>
+
+              <fieldset class="campo">
+                <legend>¿Qué pilar te movió más? <span class="opcional">(opcional)</span></legend>
+                <div class="opciones">
+                  <label class="opcion"><input type="radio" name="pilar" value="Conectar con una persona real"><span>Conectar con una persona real</span></label>
+                  <label class="opcion"><input type="radio" name="pilar" value="Ser eterna aprendiz"><span>Ser eterna aprendiz</span></label>
+                  <label class="opcion"><input type="radio" name="pilar" value="Gestionar la vulnerabilidad"><span>Gestionar la vulnerabilidad</span></label>
+                  <label class="opcion"><input type="radio" name="pilar" value="Crear entornos de seguridad psicológica"><span>Crear entornos de seguridad psicológica</span></label>
+                  <label class="opcion"><input type="radio" name="pilar" value="Formar nuevos líderes"><span>Formar nuevos líderes</span></label>
+                </div>
+              </fieldset>
+
+              <div class="campo">
+                <label for="pregunta">¿Qué le preguntarías a Jose sobre liderar siendo imperfecta? <span class="opcional">(opcional)</span></label>
+                <p class="ayuda">Recibimos preguntas hasta el lunes 16 de noviembre.</p>
+                <textarea id="pregunta" name="pregunta"></textarea>
+              </div>
+
+              <div class="campo">
+                <label for="negocio">¿Hay algo de tu negocio o tu equipo que quieras llevar a esta conversación? <span class="opcional">(opcional)</span></label>
+                <textarea id="negocio" name="negocio"></textarea>
+              </div>
+
+              <fieldset class="campo" data-campo="lectura" aria-describedby="err-lectura">
+                <legend>¿Prefieres que tu pregunta se lea con tu nombre o de forma anónima?</legend>
+                <div class="opciones dos">
+                  <label class="opcion"><input type="radio" name="lectura" value="Con mi nombre"><span>Con mi nombre</span></label>
+                  <label class="opcion"><input type="radio" name="lectura" value="Anónima"><span>Anónima</span></label>
+                </div>
+                <p class="msg-error" id="err-lectura"></p>
+              </fieldset>
+            </div>
+
+            <div class="bloque">
+              <div class="bloque-titulo"><span class="num">3</span><h3>Para cerrar</h3></div>
+
+              <div class="campo">
+                <p style="margin:0;font-weight:700">¿Invitas a alguien más? <span class="opcional">(opcional)</span></p>
+                <div class="doble">
+                  <div class="campo">
+                    <label for="invitado-nombre" class="opcional" style="font-weight:500">Nombre</label>
+                    <input type="text" id="invitado-nombre" name="invitado-nombre" autocomplete="off">
+                  </div>
+                  <div class="campo">
+                    <label for="invitado-contacto" class="opcional" style="font-weight:500">Correo o WhatsApp</label>
+                    <input type="text" id="invitado-contacto" name="invitado-contacto" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+
+              <div class="campo autorizacion-campo" data-campo="autorizo">
+                <label class="autorizacion">
+                  <input type="checkbox" id="autorizo" name="autorizo" aria-describedby="err-autorizo">
+                  <!-- TEXTO LEGAL PENDIENTE: reemplazar por el texto definitivo de autorización -->
+                  <span>Autorizo a Femme Bizz a tratar mis datos personales para gestionar mi participación en este encuentro y enviarme información relacionada, de acuerdo con su política de tratamiento de datos.</span>
+                </label>
+                <p class="msg-error" id="err-autorizo"></p>
+              </div>
+            </div>
+
+            <div class="acciones">
+              <p class="error-general" id="error-general" role="alert"></p>
+              <button type="submit" class="boton" id="enviar">Confirmar asistencia</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="gracias" id="gracias" tabindex="-1">
+          <span class="etiqueta" id="gracias-etiqueta">¡Confirmado!</span>
+          <h2 id="gracias-titulo">¡Nos vemos el 19!</h2>
+          <p id="gracias-texto"></p>
+
+          <div class="tarjeta">
+            <div class="fila"><span class="clave">Fecha</span><span class="valor">Jueves 19 de noviembre</span></div>
+            <div class="fila"><span class="clave">Hora</span><span class="valor">5:00 p. m. (hora Colombia)</span></div>
+            <div class="fila"><span class="clave">Dónde</span><span class="valor">Zoom</span></div>
+            <div id="datos-zoom" hidden>
+              <div class="fila"><span class="clave">ID</span><span class="valor" id="zoom-id"></span></div>
+              <div class="fila" style="margin-top:10px"><span class="clave">Código</span><span class="valor" id="zoom-codigo"></span></div>
+            </div>
           </div>
 
-          <div>
-            <label for="correo">Tu correo <span class="opcional">(opcional)</span>
-              <span class="ayuda">Para enviarte un recordatorio con el enlace.</span></label>
-            <input type="email" id="correo" name="correo" autocomplete="email">
+          <div class="acciones">
+            <a class="boton" id="btn-zoom" target="_blank" rel="noopener" hidden>Entrar a Zoom</a>
+            <a class="boton secundario" id="btn-calendario" target="_blank" rel="noopener" hidden>Agregar a mi calendario</a>
+            <p class="nota-ics" id="nota-ics" hidden>¿Usas iPhone u Outlook? <a id="btn-ics" href="#" download="encuentro-jose-echeverri.ics">Descarga el evento</a></p>
+            <button type="button" class="boton secundario" id="btn-compartir">Compartir la invitación</button>
+            <p class="nota-ics" id="compartido" role="status"></p>
           </div>
-
-          <fieldset>
-            <legend>Género</legend>
-            <div class="opciones dos">
-              <label class="opcion"><input type="radio" name="genero" value="Femenino"><span>Femenino</span></label>
-              <label class="opcion"><input type="radio" name="genero" value="Masculino"><span>Masculino</span></label>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>¿Haces parte de la comunidad Femme Readers?</legend>
-            <div class="opciones dos">
-              <label class="opcion"><input type="radio" name="comunidad" value="Sí"><span>Sí</span></label>
-              <label class="opcion"><input type="radio" name="comunidad" value="No"><span>Todavía no</span></label>
-            </div>
-          </fieldset>
-
-          <div class="campos-si" id="campos-externo" hidden>
-            <fieldset>
-              <legend>¿Cómo te enteraste del encuentro?</legend>
-              <div class="opciones">
-                <label class="opcion"><input type="radio" name="origen" value="Me invitó alguien de Femme Readers"><span>Me invitó alguien de Femme Readers</span></label>
-                <label class="opcion"><input type="radio" name="origen" value="Me invitó otra persona"><span>Me invitó otra persona</span></label>
-                <label class="opcion"><input type="radio" name="origen" value="Redes sociales"><span>Redes sociales</span></label>
-                <label class="opcion"><input type="radio" name="origen" value="Otro"><span>Otro</span></label>
-              </div>
-            </fieldset>
-
-            <div id="campo-quien" hidden>
-              <label for="quien">¿Quién te invitó? <span class="opcional">(opcional)</span></label>
-              <input type="text" id="quien" name="quien" autocomplete="off">
-            </div>
-
-            <div id="campo-origen-otro" hidden>
-              <label for="origen-otro">¿Dónde te enteraste?</label>
-              <input type="text" id="origen-otro" name="origen-otro" autocomplete="off">
-            </div>
-
-            <fieldset>
-              <legend>¿Te gustaría hacer parte de Femme Readers?</legend>
-              <div class="opciones">
-                <label class="opcion"><input type="radio" name="interes" value="Sí"><span>¡Sí, cuéntenme más!</span></label>
-                <label class="opcion"><input type="radio" name="interes" value="Tal vez"><span>Tal vez</span></label>
-                <label class="opcion"><input type="radio" name="interes" value="Por ahora no"><span>Por ahora no</span></label>
-              </div>
-            </fieldset>
-          </div>
-
-          <fieldset>
-            <legend>¿Vienes al encuentro?</legend>
-            <div class="opciones dos">
-              <label class="opcion"><input type="radio" name="asiste" value="Sí" required><span>¡Sí, ahí estaré!</span></label>
-              <label class="opcion"><input type="radio" name="asiste" value="No"><span>Esta vez no puedo</span></label>
-            </div>
-          </fieldset>
-
-          <div class="campos-si" id="campos-si" hidden>
-            <fieldset>
-              <legend>¿Cómo vas con el libro?</legend>
-              <div class="opciones">
-                <label class="opcion"><input type="radio" name="lectura" value="Lo terminé"><span>Lo terminé</span></label>
-                <label class="opcion"><input type="radio" name="lectura" value="Voy por la mitad"><span>Voy por la mitad</span></label>
-                <label class="opcion"><input type="radio" name="lectura" value="Apenas empecé o no lo leí"><span>Apenas empecé (o no lo leí)</span></label>
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend>¿Qué pilar te movió más? <span class="opcional">(opcional)</span></legend>
-              <div class="opciones">
-                <label class="opcion"><input type="radio" name="pilar" value="Conectar desde quienes somos"><span>Conectar desde quienes somos de verdad</span></label>
-                <label class="opcion"><input type="radio" name="pilar" value="Ser eternas aprendices"><span>Ser eternas aprendices</span></label>
-                <label class="opcion"><input type="radio" name="pilar" value="Abrazar la vulnerabilidad"><span>Abrazar la vulnerabilidad</span></label>
-                <label class="opcion"><input type="radio" name="pilar" value="Crear espacios seguros"><span>Crear espacios seguros</span></label>
-                <label class="opcion"><input type="radio" name="pilar" value="Formar nuevas líderes"><span>Formar nuevas líderes</span></label>
-              </div>
-            </fieldset>
-
-            <div>
-              <label for="pregunta">Tu pregunta para José <span class="opcional">(opcional)</span>
-                <span class="ayuda">¿Qué te gustaría preguntarle sobre liderar desde la imperfección? Recibimos preguntas hasta el lunes 16.</span></label>
-              <textarea id="pregunta" name="pregunta"></textarea>
-            </div>
-
-            <div>
-              <label for="amiga">¿Invitas a alguien? Escribe su nombre <span class="opcional">(opcional)</span></label>
-              <input type="text" id="amiga" name="amiga" autocomplete="off">
-            </div>
-          </div>
-
-          <p class="error" id="error" role="alert"></p>
-          <button type="submit" id="enviar">Confirmar</button>
-        </form>
-      </div>
-
-      <div class="respuesta" id="msg-si" role="status">
-        <p class="grande">¡Qué alegría! Nos vemos el jueves 19 a las 5:00 p. m. 📚✨</p>
-        <p>Guarda el enlace de Zoom o agrégalo a tu calendario para no olvidarlo.</p>
-        <div class="acciones">
-          <a class="boton-sec lleno" href="https://us02web.zoom.us/j/84548828919?pwd=YxmzVifjs8u6bMxO5mTk1I2comzLgr.1" target="_blank" rel="noopener">Enlace de Zoom</a>
-          <a class="boton-sec" id="calendario-2" target="_blank" rel="noopener">Agregar al calendario</a>
         </div>
       </div>
-      <div class="respuesta" id="msg-no" role="status">
-        <p class="grande">Te vamos a extrañar 💛</p>
-        <p>Gracias por avisar. Nos vemos en la próxima lectura de Femme Readers.</p>
-      </div>
-    </div>
+    </section>
   </main>
 
-  <footer>Femme Readers · ¡Nos vemos el 19! 📚✨</footer>
+  <footer>
+    <div class="cinta inf-izq" aria-hidden="true"><span></span><span></span><span></span></div>
+    Femme Readers · Club de lectura de Femme Bizz
+  </footer>
 
   <script>
     // Pega aquí la URL de tu Apps Script publicado (termina en /exec)
     const URL_SCRIPT = "PEGA_AQUI_LA_URL_DEL_SCRIPT";
 
-    const ZOOM = "https://us02web.zoom.us/j/84548828919?pwd=YxmzVifjs8u6bMxO5mTk1I2comzLgr.1";
-
-    // Jueves 19 de noviembre de 2026, 5:00–6:30 p. m. hora Colombia (UTC-5)
-    const enlaceCalendario = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-      + "&text=" + encodeURIComponent("Femme Readers · Cierre con José Echeverri")
-      + "&dates=20261119T220000Z/20261119T233000Z"
-      + "&details=" + encodeURIComponent("Encuentro de cierre de Liderazgo Imperfecto con su autor.\n\nZoom: " + ZOOM + "\nID: 845 4882 8919 · Código: 084145")
-      + "&location=" + encodeURIComponent(ZOOM);
-    document.getElementById("calendario").href = enlaceCalendario;
-    document.getElementById("calendario-2").href = enlaceCalendario;
-
     const form = document.getElementById("formulario");
-    const error = document.getElementById("error");
     const boton = document.getElementById("enviar");
-    const camposSi = document.getElementById("campos-si");
-    const campoOrigenOtro = document.getElementById("campo-origen-otro");
-    const camposExterno = document.getElementById("campos-externo");
-    const campoQuien = document.getElementById("campo-quien");
+    const errorGeneral = document.getElementById("error-general");
 
-    form.addEventListener("change", (e) => {
-      if (e.target.name === "asiste") camposSi.hidden = e.target.value !== "Sí";
-      if (e.target.name === "comunidad") camposExterno.hidden = e.target.value !== "No";
-      if (e.target.name === "origen") {
-        campoOrigenOtro.hidden = e.target.value !== "Otro";
-        campoQuien.hidden = !e.target.value.startsWith("Me invitó");
-      }
-    });
+    const v = (nombre) => (form.elements[nombre]?.value || "").trim();
 
-    function mostrar(id) {
-      document.getElementById("bloque-form").hidden = true;
-      document.getElementById(id).classList.add("visible");
+    function marcar(campo, mensaje) {
+      const cont = form.querySelector(`[data-campo="${campo}"]`);
+      cont.classList.toggle("invalido", !!mensaje);
+      document.getElementById("err-" + campo).textContent = mensaje || "";
+      const control = form.elements[campo];
+      if (control && control.setAttribute && !control.length) control.setAttribute("aria-invalid", mensaje ? "true" : "false");
     }
+
+    function validar() {
+      const errores = {};
+      if (!v("nombre") || v("nombre").split(/\s+/).length < 2) errores.nombre = "Escribe tu nombre y tu apellido.";
+      if (!v("correo")) errores.correo = "Escribe tu correo.";
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("correo"))) errores.correo = "Revisa tu correo, parece que le falta algo.";
+      const digitos = v("whatsapp").replace(/\D/g, "");
+      if (!v("whatsapp")) errores.whatsapp = "Escribe tu número de WhatsApp.";
+      else if (digitos.length < 7 || digitos.length > 15 || /[^\d\s+()-]/.test(v("whatsapp"))) errores.whatsapp = "Revisa tu número: solo números, y el indicativo si no estás en Colombia.";
+      if (!v("genero")) errores.genero = "Elige una opción.";
+      if (!v("asiste")) errores.asiste = "Cuéntanos si nos acompañas.";
+      if (!v("origen")) errores.origen = "Cuéntanos cómo te enteraste.";
+      if (v("pregunta") && !v("lectura")) errores.lectura = "Elige cómo quieres que leamos tu pregunta.";
+      if (!form.autorizo.checked) errores.autorizo = "Para confirmar, necesitamos tu autorización.";
+
+      ["nombre", "correo", "whatsapp", "genero", "asiste", "origen", "lectura", "autorizo"].forEach(c => marcar(c, errores[c]));
+      return Object.keys(errores);
+    }
+
+    // Quita el error de un campo en cuanto la persona lo corrige
+    form.addEventListener("input", (e) => {
+      const cont = e.target.closest("[data-campo]");
+      if (cont && cont.classList.contains("invalido")) marcar(cont.dataset.campo, "");
+    });
+    form.addEventListener("change", (e) => {
+      const cont = e.target.closest("[data-campo]");
+      if (cont && cont.classList.contains("invalido")) marcar(cont.dataset.campo, "");
+    });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      error.textContent = "";
+      errorGeneral.textContent = "";
 
-      const nombre = form.nombre.value.trim();
-      const correo = form.correo.value.trim();
-      const genero = form.genero.value;
-      const comunidad = form.comunidad.value;
-      const externo = comunidad === "No";
-      const origen = !externo ? "" : form.origen.value === "Otro"
-        ? "Otro: " + form["origen-otro"].value.trim()
-        : form.origen.value;
-      const quien = externo && form.origen.value.startsWith("Me invitó") ? form.quien.value.trim() : "";
-      const interes = externo ? form.interes.value : "";
-      const asiste = form.asiste.value;
-      const si = asiste === "Sí";
-      const lectura = si ? form.lectura.value : "";
-      const pilar = si ? form.pilar.value : "";
-      const pregunta = si ? form.pregunta.value.trim() : "";
-      const amiga = si ? form.amiga.value.trim() : "";
+      const errores = validar();
+      if (errores.length) {
+        const primero = form.querySelector(`[data-campo="${errores[0]}"]`);
+        primero.scrollIntoView({ behavior: "smooth", block: "center" });
+        (primero.querySelector("input, textarea")).focus({ preventScroll: true });
+        errorGeneral.textContent = errores.length === 1 ? "Revisa el campo marcado." : `Revisa los ${errores.length} campos marcados.`;
+        return;
+      }
 
-      if (!nombre) { error.textContent = "Escribe tu nombre, por favor."; return; }
-      if (correo && !/^\S+@\S+\.\S+$/.test(correo)) { error.textContent = "Revisa tu correo, parece que le falta algo."; return; }
-      if (!genero) { error.textContent = "Selecciona tu género, por favor."; return; }
-      if (!comunidad) { error.textContent = "Cuéntanos si haces parte de Femme Readers."; return; }
-      if (externo && !form.origen.value) { error.textContent = "Cuéntanos cómo te enteraste del encuentro."; return; }
-      if (externo && form.origen.value === "Otro" && !form["origen-otro"].value.trim()) { error.textContent = "Cuéntanos dónde te enteraste."; return; }
-      if (externo && !interes) { error.textContent = "Cuéntanos si te gustaría hacer parte de Femme Readers."; return; }
-      if (!asiste) { error.textContent = "Cuéntanos si vienes."; return; }
+      const datos = {
+        nombre: v("nombre"),
+        correo: v("correo").toLowerCase(),
+        whatsapp: v("whatsapp"),
+        genero: v("genero"),
+        asiste: v("asiste"),
+        libro: v("libro"),
+        origen: v("origen"),
+        invito: v("invito"),
+        ciudad: v("ciudad"),
+        pilar: v("pilar"),
+        pregunta: v("pregunta"),
+        negocio: v("negocio"),
+        lectura: v("pregunta") ? v("lectura") : "",
+        invitadoNombre: v("invitado-nombre"),
+        invitadoContacto: v("invitado-contacto"),
+        autorizo: "Sí"
+      };
 
       boton.disabled = true;
       boton.textContent = "Enviando…";
@@ -567,16 +618,81 @@
         const res = await fetch(URL_SCRIPT, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ nombre, correo, genero, comunidad, origen, quien, interes, asiste, lectura, pilar, pregunta, amiga })
+          body: JSON.stringify(datos)
         });
-        const datos = await res.json();
-        if (datos.estado !== "ok") throw new Error(datos.mensaje || "Respuesta inesperada");
-        mostrar(si ? "msg-si" : "msg-no");
+        const r = await res.json();
+        if (r.estado !== "ok") throw new Error(r.mensaje || "Respuesta inesperada");
+        mostrarGracias(datos, r);
       } catch (err) {
-        error.textContent = "Algo falló. Intenta de nuevo o escríbeme directo.";
+        errorGeneral.textContent = "No pudimos enviar tu confirmación. Revisa tu conexión e intenta de nuevo.";
         boton.disabled = false;
-        boton.textContent = "Confirmar";
+        boton.textContent = "Confirmar asistencia";
       }
+    });
+
+    function mostrarGracias(datos, r) {
+      const va = datos.asiste === "Sí";
+      const nombre = datos.nombre.split(/\s+/)[0];
+
+      document.getElementById("gracias-etiqueta").textContent = r.actualizado ? "Respuestas actualizadas" : (va ? "¡Confirmado!" : "Recibido");
+      document.getElementById("gracias-titulo").textContent = va ? `¡Nos vemos el 19, ${nombre}!` : `Gracias, ${nombre}`;
+      document.getElementById("gracias-texto").textContent = va
+        ? `Te enviamos estos datos a ${datos.correo}. Guarda el enlace o agrega el encuentro a tu calendario.`
+        : `Te enviaremos la grabación a ${datos.correo} cuando esté lista.`;
+
+      if (va && r.zoom) {
+        document.getElementById("zoom-id").textContent = r.zoom.id;
+        document.getElementById("zoom-codigo").textContent = r.zoom.codigo;
+        document.getElementById("datos-zoom").hidden = false;
+
+        const zoom = document.getElementById("btn-zoom");
+        zoom.href = r.zoom.url;
+        zoom.hidden = false;
+
+        const detalle = `Encuentro de cierre de Liderazgo Imperfecto con su autor.\n\nZoom: ${r.zoom.url}\nID: ${r.zoom.id} · Código: ${r.zoom.codigo}`;
+        const titulo = "Femme Readers · Conversemos con Jose Echeverri";
+        const cal = document.getElementById("btn-calendario");
+        cal.href = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+          + "&text=" + encodeURIComponent(titulo)
+          + "&dates=20261119T220000Z/20261119T233000Z"
+          + "&details=" + encodeURIComponent(detalle)
+          + "&location=" + encodeURIComponent(r.zoom.url);
+        cal.hidden = false;
+
+        const esc = (s) => s.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
+        const ics = [
+          "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Femme Readers//ES",
+          "BEGIN:VEVENT",
+          "UID:femme-readers-jose-echeverri-20261119",
+          "DTSTAMP:20261110T000000Z",
+          "DTSTART:20261119T220000Z", "DTEND:20261119T233000Z",
+          "SUMMARY:" + esc(titulo),
+          "DESCRIPTION:" + esc(detalle),
+          "LOCATION:" + esc(r.zoom.url),
+          "END:VEVENT", "END:VCALENDAR"
+        ].join("\r\n");
+        document.getElementById("btn-ics").href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+        document.getElementById("nota-ics").hidden = false;
+      }
+
+      document.getElementById("zona-form").hidden = true;
+      const g = document.getElementById("gracias");
+      g.classList.add("visible");
+      g.scrollIntoView({ behavior: "smooth", block: "start" });
+      g.focus({ preventScroll: true });
+    }
+
+    // Compartir la invitación (sin el enlace de Zoom)
+    document.getElementById("btn-compartir").addEventListener("click", async () => {
+      const url = location.href.split("#")[0];
+      const texto = "Te invito a conversar con Jose Echeverri, autor de Liderazgo Imperfecto. Jueves 19 de noviembre, 5:00 p. m. (hora Colombia), por Zoom. Confirma aquí:";
+      const aviso = document.getElementById("compartido");
+      if (navigator.share) {
+        try { await navigator.share({ title: "Conversemos con Jose Echeverri", text: texto, url }); } catch (_) {}
+        return;
+      }
+      window.open("https://wa.me/?text=" + encodeURIComponent(texto + " " + url), "_blank", "noopener");
+      aviso.textContent = "Se abrió WhatsApp para que compartas la invitación.";
     });
   </script>
 </body>
