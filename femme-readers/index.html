@@ -571,7 +571,8 @@
       const errores = {};
       if (!v("nombre") || v("nombre").split(/\s+/).length < 2) errores.nombre = "Escribe tu nombre y tu apellido.";
       if (!v("correo")) errores.correo = "Escribe tu correo.";
-      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("correo"))) errores.correo = "Revisa tu correo, parece que le falta algo.";
+      else if (/[^\x00-\x7F]/.test(v("correo"))) errores.correo = "Tu correo tiene una tilde o una ñ. Los correos no las llevan: escríbelo sin ellas (por ejemplo, consultoria@ y no consultoría@).";
+      else if (!/^[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/.test(v("correo"))) errores.correo = "Revisa tu correo, parece que le falta algo.";
       const digitos = v("whatsapp").replace(/\D/g, "");
       if (!v("whatsapp")) errores.whatsapp = "Escribe tu número de WhatsApp.";
       else if (digitos.length < 7 || digitos.length > 15 || /[^\d\s+()-]/.test(v("whatsapp"))) errores.whatsapp = "Revisa tu número: solo números, y el indicativo si no estás en Colombia.";
