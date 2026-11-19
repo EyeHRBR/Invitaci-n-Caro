@@ -241,8 +241,6 @@ function actualizarResumen() {
 
 // ---------- Recordatorio del día del evento ----------
 
-// Escribe aquí el correo de Jose antes de ejecutar enviarCorreoJose
-const CORREO_JOSE = "";
 // true: el correo a Jose incluye las preguntas (las anónimas van sin nombre)
 const INCLUIR_PREGUNTAS_A_JOSE = true;
 
@@ -305,7 +303,10 @@ function enviarRecordatorio() {
 // Correo para Jose: logística, número de inscritos y (opcional) las preguntas por pilar
 function enviarCorreoJose() {
   const ui = SpreadsheetApp.getUi();
-  if (!CORREO_JOSE) { ui.alert("Escribe el correo de Jose en CORREO_JOSE, guarda y vuelve a ejecutar."); return; }
+  const pedido = ui.prompt("Enviar a Jose", "Escribe el correo de Jose Echeverri:", ui.ButtonSet.OK_CANCEL);
+  if (pedido.getSelectedButton() !== ui.Button.OK) return;
+  const CORREO_JOSE = pedido.getResponseText().trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(CORREO_JOSE)) { ui.alert("Ese correo no parece válido. Vuelve a intentarlo."); return; }
 
   const hoja = obtenerHoja();
   const n = hoja.getLastRow() - 1;
