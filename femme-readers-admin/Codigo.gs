@@ -243,10 +243,12 @@ function actualizarResumen() {
 
 // true: el correo a Jose incluye las preguntas (las anónimas van sin nombre)
 const INCLUIR_PREGUNTAS_A_JOSE = true;
+const IMAGEN_RECORDATORIO = "https://femme-readers-jose-echeverri.vercel.app/assets/recordatorio-hoy.jpg";
 
 function cuerpoRecordatorio(nombre) {
   const boton = "display:inline-block;background:#9D3DC1;color:#ffffff;padding:14px 22px;font-weight:bold;text-decoration:none;text-transform:uppercase;letter-spacing:1px";
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:#3C3C3B;font-size:16px;line-height:1.6">
+    <p style="margin:0 0 16px"><img src="${IMAGEN_RECORDATORIO}" width="540" alt="Hoy, 5:00 p. m. hora Colombia, por Zoom. Conversamos con Jose Echeverri, autor de Liderazgo Imperfecto." style="display:block;width:100%;max-width:540px;height:auto;border:0"></p>
     <div style="border-top:8px solid #F9197F;padding-top:16px">
     <p>Hola, ${escapar(nombre)}:</p>
     <p><strong>Hoy es el encuentro.</strong> Te esperamos a las <strong>5:00 p. m. (hora Colombia)</strong> para conversar con Jose Echeverri, autor de <strong>Liderazgo Imperfecto</strong>.</p>
