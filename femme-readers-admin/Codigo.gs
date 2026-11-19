@@ -169,6 +169,9 @@ function onOpen() {
     .addItem("Recordatorio: probar (a mí)", "probarRecordatorio")
     .addItem("Recordatorio: enviar a inscritos", "enviarRecordatorio")
     .addItem("Recordatorio: enviar a Jose", "enviarCorreoJose")
+    .addSeparator()
+    .addItem("Agradecimiento: ver prueba (solo a mí)", "probarAgradecimiento")
+    .addItem("Agradecimiento: enviar a todos los inscritos", "enviarAgradecimiento")
     .addToUi();
 }
 
@@ -347,6 +350,88 @@ function enviarCorreoJose() {
   if (ok !== ui.Button.YES) return;
   MailApp.sendEmail({ to: CORREO_JOSE, subject: "Hoy 5:00 p. m. · Encuentro Femme Readers · Liderazgo Imperfecto", htmlBody: cuerpo, name: REMITENTE });
   ui.alert("Correo enviado a Jose (" + CORREO_JOSE + ").");
+}
+
+// ---------- Agradecimiento después del evento ----------
+
+const ASUNTO_AGRADECIMIENTO = "Gracias por acompañarnos · Conversamos con Jose Echeverri";
+
+function cuerpoAgradecimiento(nombre, asistio, enlaceGrabacion) {
+  const boton = "display:inline-block;background:#9D3DC1;color:#ffffff;padding:14px 22px;font-weight:bold;text-decoration:none;text-transform:uppercase;letter-spacing:1px";
+  const intro = asistio
+    ? "<p>Gracias por acompañarnos en el encuentro de cierre de <strong>Liderazgo Imperfecto</strong> con Jose Echeverri. Tus preguntas y tu presencia hicieron que la conversación fuera muy especial.</p>"
+    : "<p>Gracias por tu interés en el encuentro de cierre de <strong>Liderazgo Imperfecto</strong> con Jose Echeverri. Te extrañamos en la conversación.</p>";
+  const grabacion = enlaceGrabacion
+    ? `<p>${asistio ? "Si quieres volver a verla, aquí está la grabación:" : "Aquí está la grabación, como te prometimos:"}</p>
+       <p><a href="${escapar(enlaceGrabacion)}" style="${boton}">Ver la grabación</a></p>`
+    : (asistio ? "" : "<p>Te enviaremos la grabación en cuanto esté lista.</p>");
+  return `<div style="font-family:Arial,Helvetica,sans-serif;color:#3C3C3B;font-size:16px;line-height:1.6">
+    <div style="border-top:8px solid #F9197F;padding-top:16px">
+    <p>Hola, ${escapar(nombre)}:</p>
+    ${intro}
+    ${grabacion}
+    <p>${asistio ? "Nos encantaría saber qué te llevaste de este encuentro" : "Cuando veas la grabación, nos encantaría saber qué te llevaste"}: responde este correo y cuéntanos.</p>
+    <p>Muy pronto te contaremos cuál es la próxima lectura de Femme Readers.</p>
+    <p>Un abrazo,<br>Femme Readers · Femme Bizz</p>
+    </div></div>`;
+}
+
+// Pide el enlace de la grabación (opcional). Devuelve null si la persona cancela.
+function pedirEnlaceGrabacion(ui) {
+  const r = ui.prompt("Enlace de la grabación",
+    "Si ya tienes el enlace de la grabación, pégalo aquí. Si todavía no lo tienes, deja la casilla vacía y haz clic en Aceptar.",
+    ui.ButtonSet.OK_CANCEL);
+  if (r.getSelectedButton() !== ui.Button.OK) return null;
+  const enlace = r.getResponseText().trim();
+  if (enlace && !/^https?:\/\//i.test(enlace)) { ui.alert("El enlace debe empezar por https://. Vuelve a intentarlo."); return null; }
+  return enlace;
+}
+
+function probarAgradecimiento() {
+  const ui = SpreadsheetApp.getUi();
+  const enlace = pedirEnlaceGrabacion(ui);
+  if (enlace === null) return;
+  const correo = Session.getActiveUser().getEmail();
+  MailApp.sendEmail({ to: correo, subject: "[PRUEBA · asistió] " + ASUNTO_AGRADECIMIENTO, htmlBody: cuerpoAgradecimiento("Prueba", true, enlace), name: REMITENTE });
+  MailApp.sendEmail({ to: correo, subject: "[PRUEBA · pidió grabación] " + ASUNTO_AGRADECIMIENTO, htmlBody: cuerpoAgradecimiento("Prueba", false, enlace), name: REMITENTE });
+  ui.alert("Te enviamos 2 pruebas a " + correo + ": una como la verán quienes asistieron y otra como la verán quienes pidieron la grabación. A nadie más le llegó.");
+}
+
+function enviarAgradecimiento() {
+  const ui = SpreadsheetApp.getUi();
+  const props = PropertiesService.getScriptProperties();
+  if (props.getProperty("agradecimientoEnviado")) {
+    ui.alert("El agradecimiento ya se envió (" + props.getProperty("agradecimientoEnviado") + "). No se envió de nuevo.");
+    return;
+  }
+  const enlace = pedirEnlaceGrabacion(ui);
+  if (enlace === null) return;
+
+  const hoja = obtenerHoja();
+  const n = hoja.getLastRow() - 1;
+  const filas = n > 0 ? hoja.getRange(2, 1, n, COLUMNAS.length).getValues() : [];
+  const vistos = {};
+  const destinatarios = filas
+    .map(f => ({ nombre: String(f[COL.nombre]).trim(), correo: String(f[COL.correo]).trim().toLowerCase(), asistio: f[COL.asiste] === "Sí" }))
+    .filter(d => d.correo && !vistos[d.correo] && (vistos[d.correo] = true));
+
+  const ok = ui.alert("Enviar agradecimiento",
+    `Se enviará a ${destinatarios.length} personas (todas las inscritas)${enlace ? ", con el enlace de la grabación" : ", sin enlace de grabación"}. Correos disponibles hoy: ${MailApp.getRemainingDailyQuota()}. ¿Enviar?`,
+    ui.ButtonSet.YES_NO);
+  if (ok !== ui.Button.YES) return;
+
+  let enviados = 0;
+  const fallidos = [];
+  destinatarios.forEach(d => {
+    try {
+      MailApp.sendEmail({ to: d.correo, subject: ASUNTO_AGRADECIMIENTO, htmlBody: cuerpoAgradecimiento(d.nombre.split(/\s+/)[0], d.asistio, enlace), name: REMITENTE });
+      enviados++;
+    } catch (err) {
+      fallidos.push(d.correo);
+    }
+  });
+  props.setProperty("agradecimientoEnviado", new Date().toLocaleString("es-CO"));
+  ui.alert(`Agradecimiento enviado a ${enviados} personas.` + (fallidos.length ? `\nNo se pudo enviar a: ${fallidos.join(", ")}` : ""));
 }
 
 function probarCorreo() {
