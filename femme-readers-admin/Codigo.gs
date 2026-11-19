@@ -165,6 +165,10 @@ function onOpen() {
     .createMenu("Femme Readers")
     .addItem("Actualizar resumen", "actualizarResumen")
     .addItem("Probar envío de correo (a mí)", "probarCorreo")
+    .addSeparator()
+    .addItem("Recordatorio: probar (a mí)", "probarRecordatorio")
+    .addItem("Recordatorio: enviar a inscritos", "enviarRecordatorio")
+    .addItem("Recordatorio: enviar a Jose", "enviarCorreoJose")
     .addToUi();
 }
 
@@ -233,6 +237,113 @@ function actualizarResumen() {
   hoja.setColumnWidth(2, 420);
   hoja.setColumnWidth(3, 180);
   hoja.getRange(1, 2, salida.length, 1).setWrap(true);
+}
+
+// ---------- Recordatorio del día del evento ----------
+
+// Escribe aquí el correo de Jose antes de ejecutar enviarCorreoJose
+const CORREO_JOSE = "";
+// true: el correo a Jose incluye las preguntas (las anónimas van sin nombre)
+const INCLUIR_PREGUNTAS_A_JOSE = true;
+
+function cuerpoRecordatorio(nombre) {
+  const boton = "display:inline-block;background:#9D3DC1;color:#ffffff;padding:14px 22px;font-weight:bold;text-decoration:none;text-transform:uppercase;letter-spacing:1px";
+  return `<div style="font-family:Arial,Helvetica,sans-serif;color:#3C3C3B;font-size:16px;line-height:1.6">
+    <div style="border-top:8px solid #F9197F;padding-top:16px">
+    <p>Hola, ${escapar(nombre)}:</p>
+    <p><strong>Hoy es el encuentro.</strong> Te esperamos a las <strong>5:00 p. m. (hora Colombia)</strong> para conversar con Jose Echeverri, autor de <strong>Liderazgo Imperfecto</strong>.</p>
+    <p><a href="${ZOOM.url}" style="${boton}">Entrar a Zoom</a></p>
+    <p>ID de la reunión: <strong>${ZOOM.id}</strong><br>Código: <strong>${ZOOM.codigo}</strong></p>
+    <p>Te recomendamos conectarte unos minutos antes. Si no terminaste el libro, ven igual.</p>
+    <p>Nos vemos en un rato,<br>Femme Readers · Femme Bizz</p>
+    </div></div>`;
+}
+
+function probarRecordatorio() {
+  const correo = Session.getActiveUser().getEmail();
+  MailApp.sendEmail({ to: correo, subject: "Hoy a las 5:00 p. m. · Conversemos con Jose Echeverri", htmlBody: cuerpoRecordatorio("Prueba"), name: REMITENTE });
+  SpreadsheetApp.getUi().alert("Recordatorio de prueba enviado a " + correo);
+}
+
+// Envía el recordatorio a todas las personas que respondieron "Sí". No se envía dos veces.
+function enviarRecordatorio() {
+  const ui = SpreadsheetApp.getUi();
+  const props = PropertiesService.getScriptProperties();
+  if (props.getProperty("recordatorioEnviado")) {
+    ui.alert("El recordatorio ya se envió (" + props.getProperty("recordatorioEnviado") + "). No se envió de nuevo.");
+    return;
+  }
+  const hoja = obtenerHoja();
+  const n = hoja.getLastRow() - 1;
+  const filas = n > 0 ? hoja.getRange(2, 1, n, COLUMNAS.length).getValues() : [];
+  const vistos = {};
+  const destinatarios = filas
+    .filter(f => f[COL.asiste] === "Sí")
+    .map(f => ({ nombre: String(f[COL.nombre]).trim(), correo: String(f[COL.correo]).trim().toLowerCase() }))
+    .filter(d => d.correo && !vistos[d.correo] && (vistos[d.correo] = true));
+
+  const restantes = MailApp.getRemainingDailyQuota();
+  const ok = ui.alert("Enviar recordatorio",
+    `Se enviará a ${destinatarios.length} personas que confirmaron. Correos disponibles hoy: ${restantes}. ¿Enviar?`,
+    ui.ButtonSet.YES_NO);
+  if (ok !== ui.Button.YES) return;
+
+  let enviados = 0;
+  const fallidos = [];
+  destinatarios.forEach(d => {
+    try {
+      MailApp.sendEmail({ to: d.correo, subject: "Hoy a las 5:00 p. m. · Conversemos con Jose Echeverri", htmlBody: cuerpoRecordatorio(d.nombre.split(/\s+/)[0]), name: REMITENTE });
+      enviados++;
+    } catch (err) {
+      fallidos.push(d.correo);
+    }
+  });
+  props.setProperty("recordatorioEnviado", new Date().toLocaleString("es-CO"));
+  ui.alert(`Recordatorio enviado a ${enviados} personas.` + (fallidos.length ? `\nNo se pudo enviar a: ${fallidos.join(", ")}` : ""));
+}
+
+// Correo para Jose: logística, número de inscritos y (opcional) las preguntas por pilar
+function enviarCorreoJose() {
+  const ui = SpreadsheetApp.getUi();
+  if (!CORREO_JOSE) { ui.alert("Escribe el correo de Jose en CORREO_JOSE, guarda y vuelve a ejecutar."); return; }
+
+  const hoja = obtenerHoja();
+  const n = hoja.getLastRow() - 1;
+  const filas = n > 0 ? hoja.getRange(2, 1, n, COLUMNAS.length).getValues() : [];
+  const confirmados = filas.filter(f => f[COL.asiste] === "Sí").length;
+
+  let preguntas = "";
+  if (INCLUIR_PREGUNTAS_A_JOSE) {
+    const porPilar = {};
+    filas.filter(f => String(f[COL.pregunta]).trim()).forEach(f => {
+      const pilar = f[COL.pilar] || "Sin pilar";
+      const autor = f[COL.lectura] === "Anónima" ? "Anónima" : String(f[COL.nombre]).trim();
+      (porPilar[pilar] = porPilar[pilar] || []).push(`<li>${escapar(f[COL.pregunta])} <span style="color:#6B6B69">— ${escapar(autor)}</span></li>`);
+    });
+    const bloques = Object.keys(porPilar).sort((a, b) => (a === "Sin pilar") - (b === "Sin pilar") || a.localeCompare(b))
+      .map(p => `<p style="margin:18px 0 6px"><strong style="color:#9D3DC1">${escapar(p)}</strong></p><ul style="margin:0;padding-left:20px">${porPilar[p].join("")}</ul>`);
+    preguntas = bloques.length
+      ? `<p>Estas son las preguntas que nos enviaron, agrupadas por el pilar que más les movió:</p>${bloques.join("")}`
+      : "";
+  }
+
+  const boton = "display:inline-block;background:#9D3DC1;color:#ffffff;padding:14px 22px;font-weight:bold;text-decoration:none;text-transform:uppercase;letter-spacing:1px";
+  const cuerpo = `<div style="font-family:Arial,Helvetica,sans-serif;color:#3C3C3B;font-size:16px;line-height:1.6">
+    <div style="border-top:8px solid #F9197F;padding-top:16px">
+    <p>Hola, Jose:</p>
+    <p>Gracias de nuevo por acompañarnos. Te recordamos que hoy es el encuentro de cierre de <strong>Liderazgo Imperfecto</strong> con Femme Readers.</p>
+    <p><strong>Hoy, jueves 19 de noviembre · 5:00 p. m. (hora Colombia) · Por Zoom</strong></p>
+    <p><a href="${ZOOM.url}" style="${boton}">Entrar a Zoom</a></p>
+    <p>ID de la reunión: <strong>${ZOOM.id}</strong><br>Código: <strong>${ZOOM.codigo}</strong></p>
+    <p>Hasta ahora hay <strong>${confirmados} personas</strong> confirmadas.</p>
+    ${preguntas}
+    <p>Un abrazo,<br>Femme Readers · Femme Bizz</p>
+    </div></div>`;
+
+  const ok = ui.alert("Enviar a Jose", `Se enviará a ${CORREO_JOSE} con ${confirmados} confirmados${INCLUIR_PREGUNTAS_A_JOSE ? " y las preguntas" : ""}. ¿Enviar?`, ui.ButtonSet.YES_NO);
+  if (ok !== ui.Button.YES) return;
+  MailApp.sendEmail({ to: CORREO_JOSE, subject: "Hoy 5:00 p. m. · Encuentro Femme Readers · Liderazgo Imperfecto", htmlBody: cuerpo, name: REMITENTE });
+  ui.alert("Correo enviado a Jose (" + CORREO_JOSE + ").");
 }
 
 function probarCorreo() {
